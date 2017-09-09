@@ -10,7 +10,7 @@ int main(){
 			printf("Bye Bye Baby.;)");
 		}
 		if(m!=p){
-			if((p==0 && m==1) || (p==1 && m==0) || (p==2 && m==1)){
+			if((p==0 && m==2) || (p==1 && m==0) || (p==2 && m==1)){
 				printf("Você venceu.\n");
 			}
 			else{
