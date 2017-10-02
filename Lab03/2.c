@@ -26,7 +26,7 @@ int min(int a[])
 }
 int main()
 {
-	int a[ORDEM]={1,2,3,4,5,6,7,8,9,10};
-	
+	int a[ORDEM]={2,1,3,4,10,6,7,8,9,5};
+	printf("O maior será %d e o menor %d.\n",max(a),min(a) );
 	return 0;
 }
