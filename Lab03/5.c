@@ -47,4 +47,7 @@ int main()
 	{
 		printf("%d",seq[i]);
 	}
+	free(seq1);
+	free(seq2);
+	free(seq);
 }
