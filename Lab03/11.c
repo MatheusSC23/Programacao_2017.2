@@ -33,30 +33,18 @@ int main()
 		}
 	}
 	/*Cria e calcula a matriz R*/
-	int** R = (int**) malloc(linhas*sizeof(int*));
 	for(int i=0; i<linhas;i++)
 	{
-		R[i]=(int*) malloc(sizeof(int));
+		int soma=0;
 		for(int j=0; j<colunas; j++)
 		{
-			R[i][0]+=matriz[i][j]*v[j][0];
+			soma+=matriz[i][j]*v[j][0];
 
 		}
-	}
-	/*Imprime a matriz R*/
-	for(int i=0;i<linhas;i++)
-	{
-		printf("|");
-		for(int j=0; j<1;j++)
-		{
-			printf(" %d ",R[i][j]);
-		}
-		printf("|");
-		printf("\n");
+		printf("%d\n",soma );
 	}
 	free(matriz);
 	free(v);
-	free(R);
 	
 	return 0;
 }
