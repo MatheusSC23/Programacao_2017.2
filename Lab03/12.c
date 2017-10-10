@@ -36,7 +36,7 @@ dados verificar(int** a)
 	{
 		win=1;
 	}
-	else if(a[0][2]==a[1][1] && a[1][1]==a[2][0] && a[0][2]=-1)
+	else if(a[0][2]==a[1][1] && a[1][1]==a[2][0] && a[0][2]==-1)
 	{
 		win=1;
 		winner=a[0][2];
@@ -48,18 +48,18 @@ dados verificar(int** a)
 int main()
 {
 	/*Cria a matriz A*/
-	int** matriz = (int**) malloc(linhas*sizeof(int*));
+	char** matriz = (char**) malloc(linhas*sizeof(char*));
 	for(int i=0;i<linhas;i++)
 	{
-		matriz[i] = (int*) malloc(colunas*sizeof(int));
+		matriz[i] = (char*) malloc(colunas*sizeof(char));
 		for(int j=0; j<colunas;j++)
 		{
-			matriz[i][j]=-1;
+			matriz[i][j]='.';
 		}
 	}
 	for(int i=0;i<linhas;i++)
 	{
-		printf("|%d %d %d|\n",matriz[i][0],matriz[i][1],matriz[i][2] );
+		printf("|%c %c %c|\n",matriz[i][0],matriz[i][1],matriz[i][2] );
 	}
 	printf("Vez do 0");
 	printf("Insira a coluna:\n");
