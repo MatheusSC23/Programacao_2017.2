@@ -9,4 +9,4 @@ void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso);
 /* Atribui novos valores aos campos de um aluno */
 void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso);
 /* Retorna o tamanho em bytes do TAD aluno */
-int tamanho_a(Aluno *aluno);
+int tamanho_a();

@@ -1,12 +1,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Aluno.h"
+#include <string.h>
 
 struct aluno
 {
 	int matricula;
-	char *nome;
-	char *curso;
+	char nome[50];
+	char curso[30];
 };  
 
 Aluno* novo_a(int matricula, char *nome, char *curso)
@@ -18,28 +19,29 @@ Aluno* novo_a(int matricula, char *nome, char *curso)
 		exit(1);
 	}
 	a->matricula=matricula;
-	a->nome=nome;
-	a->curso=curso;
+	strcpy(a->nome,nome);
+	strcpy(a->curso,curso);
 	return a;
 }
 
 void libera_a(Aluno *aluno)
 {
 	free(aluno);
+	aluno=NULL;
 }
 void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso)
 {
 	*matricula=aluno->matricula;
-	nome=aluno->nome;
-	curso=aluno->curso;
+	strcpy(nome,aluno->nome);
+	strcpy(curso,aluno->curso);
 }
 void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso)
 {
 	aluno->matricula=matricula;
-	aluno->nome=nome;
-	aluno->curso,curso;
+	strcpy(aluno->nome,nome);
+	strcpy(aluno->curso,curso);
 }
-int tamanho_a(Aluno *aluno)
+int tamanho_a()
 {
-	return sizeof(*aluno);
+	return sizeof(Aluno);
 }
