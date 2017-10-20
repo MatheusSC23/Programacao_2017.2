@@ -26,6 +26,7 @@ Fila *novo_f(int tamanho)
 		printf("Memoria insuficiente!\n");
 		exit(1);
 	}
+	alunos[0]=NULL;
 	/*A sua fila recebe como alunos o ponteiro alunos*/
 	fila->alunos=alunos
 	return alunos;
@@ -39,10 +40,16 @@ void destroi_f(Fila *fila)
 }
 int adiciona_f(Fila *fila, Aluno *aluno)
 {
+	if(fila->alunos[(fila->ultimo)]==NULL && fila->alunos[(fila->primeiro)]==NULL)
+	{
+		fila->alunos[fila->primeiro]=aluno;
+		return 1;
+	}
 	/*Pegar o próximo espaço vago e adicionar o aluno nele*/
-	if((fila->ultimo)+1<fila->tamanho)
+	else if((fila->ultimo)+1<fila->tamanho)
 	{
 		fila->alunos[(fila->ultimo)+1]=aluno;
+		fila->ultimo++;
 		return 1;
 	}
 	return 0;
