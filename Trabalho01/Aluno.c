@@ -37,5 +37,9 @@ void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso)
 {
 	aluno->matricula=matricula;
 	aluno->nome=nome;
-	aluno->curso=curso;
+	aluno->curso,curso;
+}
+int tamanho_a(Aluno *aluno)
+{
+	return sizeof(*aluno);
 }
