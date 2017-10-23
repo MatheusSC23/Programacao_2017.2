@@ -2,7 +2,7 @@
 /* TAD: Fila (tamanho)*/
 typedef struct fila Fila;
 /* Aloca e retorna uma fila de tamanho informado */
-Fila *novo_f(int tamanho);
+Fila *nova_f(int tamanho);
 /* Libera a memória de uma fila previamente criada */
 void destroi_f(Fila *fila);
 /* Adiciona um aluno na fila. Retorna 1 se der certo e 0 caso contrário */

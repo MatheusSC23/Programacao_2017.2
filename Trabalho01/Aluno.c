@@ -12,7 +12,7 @@ struct aluno
 
 Aluno* novo_a(int matricula, char *nome, char *curso)
 {
-	if(strlen(nome)<=50 && strlen(curso)<=30 && nome!=NULL && curso!=NULL && matricula>0)
+	if(strlen(nome)<=50 && strlen(curso)<=30 && nome!=NULL && curso!=NULL && matricula>=0)
 	{
 		Aluno* a = (Aluno*) malloc(sizeof(Aluno));
 		if(a==NULL)
@@ -25,9 +25,7 @@ Aluno* novo_a(int matricula, char *nome, char *curso)
 		strcpy(a->curso,curso);
 		return a;
 	}
-	Aluno* a = (Aluno*) malloc(sizeof(Aluno));
-	a=NULL;
-	return a;
+	return NULL;
 	
 }
 
@@ -41,12 +39,17 @@ void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso)
 	*matricula=aluno->matricula;
 	strcpy(nome,aluno->nome);
 	strcpy(curso,aluno->curso);
+	
 }
 void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso)
 {
-	aluno->matricula=matricula;
-	strcpy(aluno->nome,nome);
-	strcpy(aluno->curso,curso);
+	if(matricula>=0 && nome!=NULL && curso!=NULL && strlen(nome)<=50 && strlen(curso)<=30)
+	{
+		aluno->matricula=matricula;
+		strcpy(aluno->nome,nome);
+		strcpy(aluno->curso,curso);
+	}
+	
 }
 int tamanho_a()
 {
