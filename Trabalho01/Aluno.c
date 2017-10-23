@@ -12,16 +12,23 @@ struct aluno
 
 Aluno* novo_a(int matricula, char *nome, char *curso)
 {
-	Aluno* a = (Aluno*) malloc(sizeof(Aluno));
-	if(a==NULL)
+	if(strlen(nome)<=50 && strlen(curso)<=30 && nome!=NULL && curso!=NULL && matricula>0)
 	{
-		printf("Memoria insuficiente!\n");
-		exit(1);
+		Aluno* a = (Aluno*) malloc(sizeof(Aluno));
+		if(a==NULL)
+		{
+			printf("Memoria insuficiente!\n");
+			exit(1);
+		}
+		a->matricula=matricula;
+		strcpy(a->nome,nome);
+		strcpy(a->curso,curso);
+		return a;
 	}
-	a->matricula=matricula;
-	strcpy(a->nome,nome);
-	strcpy(a->curso,curso);
+	Aluno* a = (Aluno*) malloc(sizeof(Aluno));
+	a=NULL;
 	return a;
+	
 }
 
 void libera_a(Aluno *aluno)
