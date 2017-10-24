@@ -67,25 +67,28 @@ int adiciona_f(Fila *fila, Aluno *aluno)
 }
 int retira_f(Fila *fila)
 {
-	int prox= (fila->primeiro+1)%fila->tamanho;
-	if(fila->primeiro!=-1)
+	if(fila!=NULL)
 	{
-		if(fila->primeiro==fila->ultimo)
+		
+		if(fila->primeiro!=-1)
 		{
-			libera_a(fila->alunos[fila->primeiro]);
-			fila->alunos[fila->primeiro]==NULL;
-			fila->ultimo=-1;
-			fila->primeiro=fila->ultimo;
-			return 1;
+			if(fila->primeiro==fila->ultimo)
+			{
+				fila->ultimo=-1;
+				fila->primeiro=fila->ultimo;
+				return 1;
+			}
+			else
+			{
+				int prox= (fila->primeiro+1)%fila->tamanho;
+				fila->primeiro=prox;
+				return 1;
+			}
 		}
-		else
-		{
-			libera_a(fila->alunos[fila->primeiro]);
-			fila->alunos[fila->primeiro]==NULL;
-			fila->primeiro=prox;
-			return 1;
-		}
+		return 0;
 	}
+	return 0;
+
 }
 Aluno* busca_f(Fila *fila, int matricula)
 {
