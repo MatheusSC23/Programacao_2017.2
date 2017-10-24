@@ -117,7 +117,7 @@ float testeAtribuiComDadosInvalidos() {
 	Aluno *aluno = novo_a(1, "Abraão", "Computação");
 	if (aluno != NULL){
 		atribui_a(aluno, 2, nome, curso);
-		acessa_a(aluno, &matricula, nome, curso); 
+		acessa_a(aluno, &matricula, nome, curso);
 		if(matricula == 1 || strcmp(nome,"Abraão") == 0 || strcmp(curso,"Computação") == 0) {
 			printf("[Passou 1.00] - Teste da função atribui_a() com dados inválidos!\n");
 			pontuacao = 1;

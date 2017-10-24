@@ -12,18 +12,21 @@ struct aluno
 
 Aluno* novo_a(int matricula, char *nome, char *curso)
 {
-	if(strlen(nome)<=50 && strlen(curso)<=30 && nome!=NULL && curso!=NULL && matricula>=0)
+	if(matricula>0 && nome!=NULL && curso!=NULL)
 	{
-		Aluno* a = (Aluno*) malloc(sizeof(Aluno));
-		if(a==NULL)
+		if(strlen(nome)<=50 && strlen(curso)<=30)
 		{
-			printf("Memoria insuficiente!\n");
-			exit(1);
+			Aluno* a = (Aluno*) malloc(sizeof(Aluno));
+			if(a==NULL)
+			{
+				printf("Memoria insuficiente!\n");
+				exit(1);
+			}
+			a->matricula=matricula;
+			strcpy(a->nome,nome);
+			strcpy(a->curso,curso);
+			return a;
 		}
-		a->matricula=matricula;
-		strcpy(a->nome,nome);
-		strcpy(a->curso,curso);
-		return a;
 	}
 	return NULL;
 	
@@ -31,23 +34,34 @@ Aluno* novo_a(int matricula, char *nome, char *curso)
 
 void libera_a(Aluno *aluno)
 {
-	free(aluno);
-	aluno=NULL;
+	if(aluno!=NULL)
+	{	
+		Aluno *alunovazio;
+		aluno=alunovazio;
+		free(aluno);
+		alunovazio=NULL;
+	}
 }
 void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso)
 {
-	*matricula=aluno->matricula;
-	strcpy(nome,aluno->nome);
-	strcpy(curso,aluno->curso);
+	if(aluno!=NULL)
+	{
+		*matricula=aluno->matricula;
+		strcpy(nome,aluno->nome);
+		strcpy(curso,aluno->curso);
+	}
 	
 }
 void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso)
 {
-	if(matricula>=0 && nome!=NULL && curso!=NULL && strlen(nome)<=50 && strlen(curso)<=30)
+	if(aluno!=NULL && matricula>0 && nome!=NULL && curso!=NULL)
 	{
-		aluno->matricula=matricula;
-		strcpy(aluno->nome,nome);
-		strcpy(aluno->curso,curso);
+		if(strlen(nome)<=50 && strlen(curso)<=30)
+		{
+			aluno->matricula=matricula;
+			strcpy(aluno->nome,nome);
+			strcpy(aluno->curso,curso);
+		}
 	}
 	
 }
