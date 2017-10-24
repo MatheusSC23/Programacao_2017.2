@@ -92,24 +92,23 @@ int retira_f(Fila *fila)
 }
 Aluno* busca_f(Fila *fila, int matricula)
 {
-	int i=0;
-	int m;
-	char* nome;
-	char* curso;
-	int True=1;
-	Aluno* aluno=NULL;
-	while(i<fila->tamanho && True)
+	if(fila!=NULL && matricula>0)
 	{
-		;
-		acessa_a(fila->alunos[i],&m,nome,curso);
-		if(m==matricula)
+		int i;
+		int m=0;
+		char* nome;
+		char* curso;
+		int True=1;
+		for(i=0;i<fila->ultimo;i++)
 		{
-			True=0;
-			aluno=fila->alunos[i];
+			acessa_a(fila->alunos[i],&m,nome,curso);
+			printf("%d\n",m );
+			
 		}
-		i++;
+		return NULL;
 	}
-	return aluno;
+	
+	return NULL;
 }
 int cheia_f(Fila *fila)
 {
