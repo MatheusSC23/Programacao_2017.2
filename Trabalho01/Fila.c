@@ -94,15 +94,20 @@ Aluno* busca_f(Fila *fila, int matricula)
 {
 	if(fila!=NULL && matricula>0)
 	{
-		int i;
-		int m=0;
+		int i=fila->primeiro;
+		int m=-1;
 		char* nome;
 		char* curso;
-		int True=1;
-		for(i=0;i<fila->ultimo;i++)
+		while(i<=fila->ultimo)
 		{
-			acessa_a(fila->alunos[i],&m,nome,curso);
-			printf("%d\n",m );
+			Aluno *aluno=fila->alunos[0];
+			acessa_a(aluno,&m,nome,curso);
+			printf("%d %s %s\n",m,nome,curso);
+			if(m==matricula)
+			{
+				return fila->alunos[i];
+			}
+			i=(i+1)%fila->tamanho;
 			
 		}
 		return NULL;
