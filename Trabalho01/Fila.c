@@ -48,6 +48,7 @@ void destroi_f(Fila *fila)
 }
 int adiciona_f(Fila *fila, Aluno *aluno)
 {
+
 	if(fila->primeiro==-1)
 	{
 		fila->primeiro=0;
@@ -95,14 +96,13 @@ Aluno* busca_f(Fila *fila, int matricula)
 	if(fila!=NULL && matricula>0)
 	{
 		int i=fila->primeiro;
-		int m=-1;
-		char* nome;
-		char* curso;
+		int m;
+		char nome[50];
+		char curso[30];
 		while(i<=fila->ultimo)
 		{
-			Aluno *aluno=fila->alunos[0];
+			Aluno *aluno=fila->alunos[i];
 			acessa_a(aluno,&m,nome,curso);
-			printf("%d %s %s\n",m,nome,curso);
 			if(m==matricula)
 			{
 				return fila->alunos[i];
