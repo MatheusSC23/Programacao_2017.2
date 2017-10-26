@@ -12,6 +12,10 @@ struct fila
 };
 Fila *nova_f(int tamanho)
 {
+	if(tamanho<1)
+	{
+		return NULL;
+	}
 	/*Aloc a memória para uma fila*/
 	Fila* fila = (Fila*) malloc(sizeof(Fila));
 	/*Testa se há espaço pra alocação*/
@@ -41,30 +45,39 @@ Fila *nova_f(int tamanho)
 }
 void destroi_f(Fila *fila)
 {
-	free(fila->alunos);
-	fila->alunos=NULL;
-	free(fila);
-	fila=NULL;
+	if(fila!=NULL)
+	{
+		free(fila->alunos);
+		fila->alunos=NULL;
+		free(fila);
+		fila=NULL;
+	}
+	
 }
 int adiciona_f(Fila *fila, Aluno *aluno)
 {
 
-	if(fila->primeiro==-1)
+	if(fila==NULL || aluno==NULL)
+	{
+		return 0;
+	}
+	else if(cheia_f(fila))
+	{
+		return 0;
+	}
+	else if(fila->primeiro==-1)
 	{
 		fila->primeiro=0;
 		fila->ultimo=0;
 		fila->alunos[fila->primeiro]=aluno;
 		return 1;
 	}
+	printf("%d\n",cheia_f(fila) );
 	/*Pegar o próximo espaço vago e adicionar o aluno nele*/
-	else if(!cheia_f(fila))
-	{
-		int prox=(fila->ultimo+1)%fila->tamanho;
-		fila->alunos[prox]=aluno;
-		fila->ultimo=prox;
-		return 1;
-	}
-	return 0;
+	int prox=(fila->ultimo+1)%fila->tamanho;
+	fila->alunos[prox]=aluno;
+	fila->ultimo=prox;
+	return 1;
 }
 int retira_f(Fila *fila)
 {
@@ -99,7 +112,8 @@ Aluno* busca_f(Fila *fila, int matricula)
 		int m;
 		char nome[50];
 		char curso[30];
-		while(i<=fila->ultimo)
+		int tamanho=0;
+		while(i<=fila->ultimo && tamanho<fila->tamanho)
 		{
 			Aluno *aluno=fila->alunos[i];
 			acessa_a(aluno,&m,nome,curso);
@@ -108,6 +122,7 @@ Aluno* busca_f(Fila *fila, int matricula)
 				return fila->alunos[i];
 			}
 			i=(i+1)%fila->tamanho;
+			tamanho++;
 			
 		}
 		return NULL;

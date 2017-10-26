@@ -36,10 +36,10 @@ void libera_a(Aluno *aluno)
 {
 	if(aluno!=NULL)
 	{	
-		Aluno *alunovazio;
-		aluno=alunovazio;
+		Aluno alunovazio;
+		*aluno=alunovazio;
 		free(aluno);
-		alunovazio=NULL;
+		aluno=NULL;
 	}
 }
 void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso)
