@@ -72,7 +72,6 @@ int adiciona_f(Fila *fila, Aluno *aluno)
 		fila->alunos[fila->primeiro]=aluno;
 		return 1;
 	}
-	printf("%d\n",cheia_f(fila) );
 	/*Pegar o próximo espaço vago e adicionar o aluno nele*/
 	int prox=(fila->ultimo+1)%fila->tamanho;
 	fila->alunos[prox]=aluno;
@@ -132,7 +131,8 @@ Aluno* busca_f(Fila *fila, int matricula)
 }
 int cheia_f(Fila *fila)
 {
-	if(fila->ultimo+1== fila->primeiro)
+	int prox = (fila->ultimo+1)%fila->tamanho;;
+	if(prox== fila->primeiro)
 	{
 		return 1;
 	}
