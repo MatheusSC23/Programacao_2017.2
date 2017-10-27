@@ -3,3 +3,9 @@
  gcc -c Teste.c -o Teste.o
  gcc -o Teste.bin Aluno.o Fila.o Teste.o
 ./Teste.bin
+
+gcc -c Aluno.c -o Aluno.o
+gcc -c Fila.c -o Fila.o
+gcc -std=c99 -c Teste.c -o Teste.o
+gcc -o Teste.bin Aluno.o Fila.o Teste.o
+./Teste.bin

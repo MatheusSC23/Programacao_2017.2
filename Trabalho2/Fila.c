@@ -5,9 +5,9 @@
 
 struct fila
 {
-	Aluno** alunos;
+	Aluno* aluno;
 	int tamanho;
-	int primeiro,ultimo;
+	int elementos;
 
 };
 Fila *nova_f(int tamanho)
@@ -26,21 +26,8 @@ Fila *nova_f(int tamanho)
 	}
 	/*Define o tamanho da fila*/
 	fila->tamanho=tamanho;
-	/*Aloca um espaço na memória para um ponteiro alunos*/
-	Aluno** alunos = (Aluno**) malloc(tamanho*tamanho_a());
-	/*Testa se há espaço pra alocação*/
-	if(alunos==NULL)
-	{
-		printf("Memoria insuficiente!\n");
-		exit(1);
-	}
-	/*A sua fila recebe como alunos o ponteiro alunos*/
-	fila->alunos=alunos;
-	fila->alunos[0]=NULL;
-	
-	
-	fila->primeiro=-1;
-	fila->ultimo=-1;
+	fila->aluno=NULL;
+	fila->elementos=0
 	return fila;
 }
 void destroi_f(Fila *fila)
@@ -65,11 +52,10 @@ int adiciona_f(Fila *fila, Aluno *aluno)
 	{
 		return 0;
 	}
-	else if(fila->primeiro==-1)
+	else if(fila->aluno==NULL)
 	{
-		fila->primeiro=0;
-		fila->ultimo=0;
-		fila->alunos[fila->primeiro]=aluno;
+		fila->aluno=aluno;
+		fila->elementos++;
 		return 1;
 	}
 	/*Pegar o próximo espaço vago e adicionar o aluno nele*/

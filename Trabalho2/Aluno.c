@@ -57,6 +57,10 @@ void setProximo(Aluno* aluno)
 {
 	aluno->prox=aluno;
 }
+Aluno* getProximo(Aluno* aluno)
+{
+	return aluno->prox;
+}
 void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso)
 {
 	if(aluno!=NULL && matricula>0 && nome!=NULL && curso!=NULL)
