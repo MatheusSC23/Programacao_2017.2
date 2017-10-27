@@ -53,9 +53,9 @@ void acessa_a(Aluno *aluno, int *matricula, char *nome, char *curso)
 	}
 	
 }
-void setProximo(Aluno* aluno)
+void setProximo(Aluno* aluno, Aluno* prox)
 {
-	aluno->prox=aluno;
+	aluno->prox=prox;
 }
 Aluno* getProximo(Aluno* aluno)
 {

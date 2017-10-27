@@ -11,7 +11,7 @@ void atribui_a(Aluno *aluno, int matricula, char *nome, char *curso);
 /* Retorna o tamanho em bytes do TAD aluno */
 int tamanho_a();
 /*Define um ponteiro para o próximo aluno*/
-void setProximo(Aluno* aluno);
+void setProximo(Aluno* aluno, Aluno* prox);
 /*Retorna um ponteiro para o próximo de Aluno*/
 Aluno* getProx(Aluno* aluno);
 

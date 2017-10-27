@@ -5,9 +5,11 @@
 
 struct fila
 {
-	Aluno* aluno;
+	Aluno* alunoHead;
+	Aluno* alunoTail;
 	int tamanho;
 	int elementos;
+
 
 };
 Fila *nova_f(int tamanho)
@@ -26,16 +28,17 @@ Fila *nova_f(int tamanho)
 	}
 	/*Define o tamanho da fila*/
 	fila->tamanho=tamanho;
-	fila->aluno=NULL;
-	fila->elementos=0
+	fila->alunoHead=NULL;
+	fila->alunoTail=fila->alunoHead;
+	fila->elementos=0;
 	return fila;
 }
 void destroi_f(Fila *fila)
 {
 	if(fila!=NULL)
 	{
-		free(fila->alunos);
-		fila->alunos=NULL;
+		free(fila->alunoHead);
+		fila->alunoHead=NULL;
 		free(fila);
 		fila=NULL;
 	}
@@ -52,35 +55,35 @@ int adiciona_f(Fila *fila, Aluno *aluno)
 	{
 		return 0;
 	}
-	else if(fila->aluno==NULL)
+	else if(fila->alunoHead==NULL)
 	{
-		fila->aluno=aluno;
+		fila->alunoHead=aluno;
+		fila->alunoTail=fila->alunoHead;
 		fila->elementos++;
 		return 1;
 	}
-	/*Pegar o próximo espaço vago e adicionar o aluno nele*/
-	int prox=(fila->ultimo+1)%fila->tamanho;
-	fila->alunos[prox]=aluno;
-	fila->ultimo=prox;
+	setProximo(fila->alunoTail,aluno);
+	fila->alunoTail=aluno;
+	fila->elementos++;
 	return 1;
 }
 int retira_f(Fila *fila)
 {
 	if(fila!=NULL)
-	{
-		
-		if(fila->primeiro!=-1)
+	{		
+		if(fila->alunoHead!=NULL)
 		{
-			if(fila->primeiro==fila->ultimo)
+			if(fila->alunoHead==fila->alunoTail)
 			{
-				fila->ultimo=-1;
-				fila->primeiro=fila->ultimo;
+				fila->alunoHead=NULL;
+				fila->alunoTail=NULL;
+				fila->elementos--;
 				return 1;
 			}
 			else
 			{
-				int prox= (fila->primeiro+1)%fila->tamanho;
-				fila->primeiro=prox;
+				fila->alunoHead=getProximo(fila->alunoHead);
+				fila->elementos--;
 				return 1;
 			}
 		}
@@ -93,22 +96,20 @@ Aluno* busca_f(Fila *fila, int matricula)
 {
 	if(fila!=NULL && matricula>0)
 	{
-		int i=fila->primeiro;
 		int m;
 		char nome[50];
 		char curso[30];
-		int tamanho=0;
-		while(i<=fila->ultimo && tamanho<fila->tamanho)
+		int i=1;
+		Aluno *aluno=fila->alunoHead;
+		while(i<=fila->elementos)
 		{
-			Aluno *aluno=fila->alunos[i];
 			acessa_a(aluno,&m,nome,curso);
 			if(m==matricula)
 			{
-				return fila->alunos[i];
+				return aluno;
 			}
-			i=(i+1)%fila->tamanho;
-			tamanho++;
-			
+			aluno=getProximo(aluno);
+			i++;			
 		}
 		return NULL;
 	}
@@ -117,8 +118,7 @@ Aluno* busca_f(Fila *fila, int matricula)
 }
 int cheia_f(Fila *fila)
 {
-	int prox = (fila->ultimo+1)%fila->tamanho;;
-	if(prox== fila->primeiro)
+	if(fila->tamanho==fila->elementos)
 	{
 		return 1;
 	}
