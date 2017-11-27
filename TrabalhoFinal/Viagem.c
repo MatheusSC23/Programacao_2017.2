@@ -1,0 +1,104 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include "Viagem.h"
+#include <string.h>
+struct	viagem{
+	int dia;
+	int mes;
+	int ano;
+	char cidade[51];
+	char pais[51];
+	int periodo;
+	Viagem *direita, *esquerda, *pai;
+};
+Viagem	*nova_v(int	dia,	int	mes,	int	ano,	char	*cidade,	char	*pais,	int	periodo){
+	if((dia<1 || dia>31) || (mes<1 || mes>12) || ano<1 || cidade==NULL || pais==NULL || periodo<1){
+		return NULL;
+	}
+	else{
+		if(strlen(pais)<50 && strlen(cidade)<50){
+			Viagem* v = (Viagem*) malloc(sizeof(Viagem));
+			if(v==NULL){
+				printf("Memoria insuficiente!\n");
+				exit(1)
+			}
+			v->dia = dia;
+			v->mes = mes;
+			v->ano = ano;
+			strcpy(v->cidade, cidade);
+			strcpy(v->pais, pais);
+			v->periodo = periodo;
+			return v;
+		}
+		return NULL;
+	}
+}
+
+void	libera_v(Viagem	*viagem){
+	if(viagem!=NULL){
+		Viagem viagemVazia;
+		*viagem = viagemVazia;
+		free(viagem);
+		viagem=NULL;
+	}
+}
+
+void	acessa_v(Viagem	*viagem,	int	*dia,	int	*mes,	int	*ano,	char	*cidade,	char	*pais,	int	*periodo){
+	if(viagem!=NULL){
+		*dia = viagem->dia;
+		*mes = viagem->mes;
+		*ano = viagem->ano;
+		*periodo = viagem->periodo;
+		strcpy(cidade, viagem->cidade);
+		strcpy(pais,viagem->pais);
+	}
+}	
+
+void	atribui_v(Viagem	*viagem,	int	dia,	int	mes,	int	ano,	char	*cidade,	char	*pais,	int	periodo){
+	if((dia=>1 && dia<=31) && (mes>=1 && mes<=12) && ano>=1 && cidade!=NULL && pais!=NULL && periodo>=1){
+		if(strlen(pais)<50 && strlen(cidade)<50){
+			viagem->dia = dia;
+			viagem->mes = mes;
+			viagem->ano = ano;		
+			v->periodo = periodo;
+			strcpy(v->cidade, cidade);
+			strcpy(v->pais, pais);
+		}
+	}
+}	
+/*Atribui a um nó viagem um filho direito*/
+void	atribui_direita_v(Viagem	*viagem,	Viagem	*direita){
+	if(viagem!=NULL){
+		viagem->direita = direita;
+		if(direita!=NULL){
+			direita->pai = viagem;
+		}
+
+	}
+}	
+/*A função retorna o nó viagem que é direita do nó dado*/
+Viagem	*acessa_direita_v(Viagem	*viagem){
+	if(viagem!=NULL){
+		return viagem->direita;
+	}
+}	
+/*Atribui a um nó viagem um filho esquerdo*/
+void	atribui_esquerda_v(Viagem	*viagem,	Viagem	*esquerda){
+	if(viagem!=NULL){
+		viagem->esquerda = esquerda;
+		if(direita!=NULL){
+			direita->pai = viagem;
+		}
+
+	}
+}	
+/*A função retorna o nó viagem que é esquerda do nó dado*/
+Viagem	*acessa_esquerda_v(Viagem	*viagem){
+	if(viagem!=NULL){
+		return viagem->esquerda;
+	}
+}	
+
+int	tamanho_v(){
+	return sizeof(Viagem);
+}
