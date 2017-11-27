@@ -19,8 +19,7 @@ Viagem	*nova_v(int	dia,	int	mes,	int	ano,	char	*cidade,	char	*pais,	int	periodo)
 		if(strlen(pais)<50 && strlen(cidade)<50){
 			Viagem* v = (Viagem*) malloc(sizeof(Viagem));
 			if(v==NULL){
-				printf("Memoria insuficiente!\n");
-				exit(1)
+				return NULL;
 			}
 			v->dia = dia;
 			v->mes = mes;
