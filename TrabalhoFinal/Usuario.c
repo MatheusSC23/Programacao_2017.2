@@ -5,7 +5,7 @@
 
 struct usuario{
 	int id,primeiro,ultimo,tamanho;
-	char nome[80];
+	char nome[81];
 	Usuario **amigos;
 	Viagem *viagens;
 };
@@ -37,6 +37,7 @@ void libera_u(Usuario *usuario){
 		libera_v(usuario->viagens);
 		Usuario vazio;
 		for(int i = primeiro; i<=ultimo; i++){
+			remove_amigo_u(usuario->amigos[i],usuario->id);
 			usuario->amigos[i]=vazio;
 			free(usuario->amigos[i]);
 			usuario->amigos[i]=NULL;
@@ -62,7 +63,11 @@ void atribui_u(Usuario *usuario, int id, char *nome){
 }
 
 void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
-	if(usuario!=NULL && amigo!=NULL){
+	int usuario_id;
+	char nome[81];
+	acessa_u(amigo,usuario_id,nome);
+	Usuario NaLista = busca_amigo_u(usuario,amigo)
+	if(usuario!=NULL && amigo!=NULL && usuario->id!=usuario_id && NaLista==NULL){
 		if(usuario->tamanho<(usuario->tamanho+1)){
 			Usuario** amigos = (Usuario**) realloc(usuario->amigos,(usuario->tamanho+10)*sizeof(Usuario);
 			usuario->amigos = amigos;
@@ -77,6 +82,7 @@ void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 			usuario->ultimo++;
 			usuario->amigos[usuario->ultimo]=amigo;
 		}
+		adiciona_amigo_u();
 	}
 }
 
@@ -84,8 +90,13 @@ void remove_amigo_u(Usuario *usuario, int id){
 	if(usuario!=NULL && id>=0 && usuario->primeiro!=-1){
 		int i=0;
 		int pos = -1;
+		int usuario_id;
+		char nome[81];
+		Usuario amigo=NULL;
 		while(i<=usuario->ultimo && pos==-1 ){
-			if(usuario->amigos[i]->id==id){
+			acessa_u(usuario->amigos[i],usuario_id,nome);
+			if(usuario_id==id){
+				amigo=usuario->amigos[i];
 				pos=i;
 				usuario->amigos[i]=NULL;
 			}
@@ -104,6 +115,41 @@ void remove_amigo_u(Usuario *usuario, int id){
 		else{
 			usuario->ultimo--;
 		}
+		remove_amigo_u(amigo, usuario->id);
 		
+	}
+}
+
+Usuario *busca_amigo_u(Usuario *usuario, int id){
+	if(usuario!=NULL && id>=0){
+		int i = 0;
+		char nome[81];
+		int usuario_id;
+		Usuario retorno=NULL;
+		while(i<=usuario->ultimo && retorno==NULL){
+			acessa_u(usuario->amigos[i],usuario_id,nome);
+			if(usuario_id==id){
+				retorno=usuario->amigos[i];
+			}
+			i++;
+		}
+		return retorno;
+	}
+	return NULL;
+}
+
+Usuario *lista_amigos_u(Usuario *usuario){
+	if(usuario!=NULL){
+		return usuario->amigos;
+	}
+}
+
+void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
+	if(usuario!=NULL && viagem!=NULL){
+		Viagem pai = NULL;
+		Viagem raiz = usuario->viagens;
+		while(){
+
+		}
 	}
 }

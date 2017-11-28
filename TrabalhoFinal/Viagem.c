@@ -7,8 +7,8 @@ struct viagem{
 	int dia;
 	int mes;
 	int ano;
-	char cidade[60];
-	char pais[30];
+	char cidade[61];
+	char pais[31];
 	int periodo;
 	Viagem *direita, *esquerda, *pai;
 };
@@ -39,8 +39,6 @@ void libera_v(Viagem *viagem){
 	if(viagem!=NULL){
 		Viagem viagemVazia;
 		*viagem = viagemVazia;
-		libera_v(viagem->esquerda)
-		libera_v(viagem->direita)
 		free(viagem);
 		viagem=NULL;
 	}
