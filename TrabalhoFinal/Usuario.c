@@ -93,8 +93,17 @@ void remove_amigo_u(Usuario *usuario, int id){
 		}
 		if(usuario->ultimo>pos){
 			while(pos<usuario->ultimo){
-				usuario->amigos[pos]=usuario->amigos[pos+1]
+				usuario->amigos[pos]=usuario->amigos[pos+1];
+				usuario->amigos[pos+1]=NULL;
 			}
 		}
+		else if(usuario->ultimo==usuario->primeiro){
+			usuario->ultimo--;
+			usuario->primeiro--;
+		}
+		else{
+			usuario->ultimo--;
+		}
+		
 	}
 }
