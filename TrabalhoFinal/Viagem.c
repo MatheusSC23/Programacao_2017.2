@@ -39,6 +39,8 @@ void libera_v(Viagem *viagem){
 	if(viagem!=NULL){
 		Viagem viagemVazia;
 		*viagem = viagemVazia;
+		libera_v(viagem->esquerda)
+		libera_v(viagem->direita)
 		free(viagem);
 		viagem=NULL;
 	}

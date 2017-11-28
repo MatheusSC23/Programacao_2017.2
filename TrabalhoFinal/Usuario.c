@@ -64,7 +64,8 @@ void atribui_u(Usuario *usuario, int id, char *nome){
 void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 	if(usuario!=NULL && amigo!=NULL){
 		if(usuario->tamanho<(usuario->tamanho+1)){
-			usuario->amigos=(Usuario**) realloc(usuario->amigos,(usuario->tamanho+10)*sizeof(Usuario);
+			Usuario** amigos = (Usuario**) realloc(usuario->amigos,(usuario->tamanho+10)*sizeof(Usuario);
+			usuario->amigos = amigos;
 			usuario->tamanho+=10;
 		}
 		if(usuario->primeiro==-1 && usuario->ultimo==-1){
@@ -75,6 +76,25 @@ void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 		else{
 			usuario->ultimo++;
 			usuario->amigos[usuario->ultimo]=amigo;
+		}
+	}
+}
+
+void remove_amigo_u(Usuario *usuario, int id){
+	if(usuario!=NULL && id>=0 && usuario->primeiro!=-1){
+		int i=0;
+		int pos = -1;
+		while(i<=usuario->ultimo && pos==-1 ){
+			if(usuario->amigos[i]->id==id){
+				pos=i;
+				usuario->amigos[i]=NULL;
+			}
+			i++;
+		}
+		if(usuario->ultimo>pos){
+			while(pos<usuario->ultimo){
+				usuario->amigos[pos]=usuario->amigos[pos+1]
+			}
 		}
 	}
 }
