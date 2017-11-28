@@ -143,12 +143,25 @@ Usuario *lista_amigos_u(Usuario *usuario){
 		return usuario->amigos;
 	}
 }
+int checkData(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
+	return (dia1+mes1*30+ano1*365)<=(dia2+mes2*30+ano2*365);
+
+}
 
 void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
+	int* dia1,dia2,mes1,mes2,ano1,ano2
 	if(usuario!=NULL && viagem!=NULL){
 		Viagem pai = NULL;
 		Viagem raiz = usuario->viagens;
-		while(){
+		while(raiz!=NULL){
+			pai=raiz;
+			acessa_v(raiz,dia1,mes1,ano1);
+			acessa_v(viagem,dia2,mes2,ano2);
+			/*(1)raiz<=viagem*/
+			if(checkData(dia1,mes1,ano1,dia2,mes2,ano2)==1){
+			/*A afirmação (1) é verdadeira*/
+			raiz=atribui_esquerda_v(raiz);
+			}
 
 		}
 	}
