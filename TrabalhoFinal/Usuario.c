@@ -3,43 +3,72 @@
 #include <stdlib.h>
 #include "Usuario.h"
 
-struct	usuario{
-	int id;
-	char nome[51];
-	Usuario *amigos,*proximo,*anterior;
+struct usuario{
+	int id,primeiro,ultimo;
+	char nome[80];
+	Usuario **amigos;
 	Viagem *viagens;
 };
 
-Usuario	*novo_u(int	id,	char	*nome){
-	if(nome != NULL && id>1){
+Usuario *novo_u(int id, char *nome){
+	if(nome != NULL && id>=0 && nome!=NULL && strlen(nome)<80){
 		Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
 		if(usuario==NULL){
 			return NULL;
 		}
-		Usuario* amigos = (Usuario*) malloc(sizeof(Usuario));
+		Usuario** amigos = (Usuario**) malloc(sizeof(Usuario));
 		if(amigos==NULL){
-			return NULL;
-		}
-		Viagem* viagens = (Viagem*) malloc(sizeof(Usuario));
-		if(viagens==NULL){
 			return NULL;
 		}
 		usuario->nome = nome;
 		usuario->id = id;
-		usuario->amigos = NULL;
+		usuario->amigos = amigos;
 		usuario->viagens = NULL;
+		usuario->primeiro = -1;
+		usuario->ultimo = -1;
 		return usuario;
 	}
 	return NULL;
 }
-void	libera_u(Usuario *usuario){
+
+void libera_u(Usuario *usuario){
 	if(usuario!=NULL){
 		libera_v(usuario->viagens);
-		Usuario usuarioVazio;
-		usuario->amigos=usuarioVazio;
-		*usuario = usuarioVazio;
-		free(usuario->amigos);
+		Usuario vazio;
+		for(int i = primeiro; i<=ultimo; i++){
+			usuario->amigos[i]=vazio;
+			free(usuario->amigos[i]);
+			usuario->amigos[i]=NULL;
+		}
+		*usuario=vazio;
 		free(usuario);
-		usuario=Null
+		usuario=NULL;
+	}
+}
+
+void acessa_u(Usuario *usuario, int *id, char *nome){
+	if(usuario!=NULL){
+		*id = usuario->id;
+		strcpy(nome,usuario->nome);
+	}
+} 
+
+void atribui_u(Usuario *usuario, int id, char *nome){
+	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<80){
+		usuario->id = id;
+		strcpy(usuario->nome,nome);
+	}
+}
+
+void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
+	if(usuario!=NULL && amigo!=NULL){
+		if(usuario->primeiro==-1 && usuario->ultimo==-1){
+			usuario->amigos[primeiro]=amigo;
+			usuario->primeiro++;
+			usuario->ultimo++;
+		}
+		else{
+			
+		}
 	}
 }
