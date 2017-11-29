@@ -76,7 +76,8 @@ void atribui_direita_v(Viagem *viagem, Viagem *direita){
 		}
 
 	}
-} 
+}
+ 
 /*A função retorna o nó viagem que é direita do nó dado*/
 Viagem *acessa_direita_v(Viagem *viagem){
 	if(viagem!=NULL){
@@ -100,6 +101,17 @@ Viagem *acessa_esquerda_v(Viagem *viagem){
 	}
 } 
 
+void atribui_pai_v(Viagem *viagem, Viagem *pai){
+	if(viagem!=NULL){
+		viagem->pai = pai;
+	}
+}
+Viagem acessa_pai_v(Viagem *viagem){
+	if(viagem!=NULL){
+		return viagem->pai;
+	}
+
+}
 int tamanho_v(){
 	return sizeof(Viagem);
 }
