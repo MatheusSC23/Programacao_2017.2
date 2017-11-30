@@ -82,7 +82,7 @@ void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 			usuario->ultimo++;
 			usuario->amigos[usuario->ultimo]=amigo;
 		}
-		adiciona_amigo_u();
+		adiciona_amigo_u(amigo,usuario);
 	}
 }
 
@@ -106,6 +106,7 @@ void remove_amigo_u(Usuario *usuario, int id){
 			while(pos<usuario->ultimo){
 				usuario->amigos[pos]=usuario->amigos[pos+1];
 				usuario->amigos[pos+1]=NULL;
+				usuario->ultimo--;
 			}
 		}
 		else if(usuario->ultimo==usuario->primeiro){
