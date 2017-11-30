@@ -87,12 +87,12 @@ void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 }
 
 void remove_amigo_u(Usuario *usuario, int id){
+	int i=0;
+	int pos = -1;
+	int usuario_id;
+	char nome[81];
+	Usuario amigo=NULL;
 	if(usuario!=NULL && id>=0 && usuario->primeiro!=-1){
-		int i=0;
-		int pos = -1;
-		int usuario_id;
-		char nome[81];
-		Usuario amigo=NULL;
 		while(i<=usuario->ultimo && pos==-1 ){
 			acessa_u(usuario->amigos[i],usuario_id,nome);
 			if(usuario_id==id){
@@ -115,11 +115,7 @@ void remove_amigo_u(Usuario *usuario, int id){
 		else{
 			usuario->ultimo--;
 		}
-		if(pos!=-1){
-			remove_amigo_u(amigo, usuario->id);
-		}
-		
-		
+		remove_amigo_u(amigo, usuario->id);	
 	}
 }
 
@@ -147,22 +143,22 @@ Usuario *lista_amigos_u(Usuario *usuario){
 	}
 }
 /*Retorna 1 se data1<data2 e 0 se data1>data2*/
-int checkData(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
+int MenorQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
 	int diaMes[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};
 	return (dia1+diaMes[mes1]*mes1+ano1*365)<(dia2+diaMes[mes2]*mes2+ano2*365);
 
 }
 /*A data1 tem prioridade enquanto a data2 é a que eu quero adicionar*/
 int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, int ano2,int periodo2){
-	if(checkData(dia1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1 é menor que a data 1*/
-		if(checkData(dia1+periodo1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1+periodo1 é menor que a data2*/
+	if(MenorQue(dia1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1 é menor que a data 1*/
+		if(MenorQue(dia1+periodo1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1+periodo1 é menor que a data2*/
 			return 0;
 		}
 		else{
 			return 1;
 		}
 	}
-	else if(checkData(dia2+periodo2,mes2,ano2,dia1,mes1,ano1)==1){ /*Verifica se a data2+periodo2 é menor que data1*/
+	else if(MenorQue(dia2+periodo2,mes2,ano2,dia1,mes1,ano1)==1){ /*Verifica se a data2+periodo2 é menor que data1*/
 		return 0;
 	}
 	else{
@@ -184,7 +180,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			acessa_v(raiz,dia1,mes1,ano1,cidade,pais,periodo1);
 			if(conflitoData(dia1,mes1,ano1,periodo1,dia2,mes2,ano2,periodo2)!=1){
 				/*(1)raiz<viagem*/
-				if(checkData(dia1,mes1,ano1,dia2,mes2,ano2)==1){
+				if(MenorQue(dia1,mes1,ano1,dia2,mes2,ano2)==1){
 					/*Se a afirmação (1) é verdadeira*/
 					raiz=acessa_direita_v(raiz);
 				}
@@ -203,7 +199,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			if(pai==NULL){
 				usuario->viagem=viagem
 			}
-			else if(checkData(dia2,mes2,ano2,dia1,mes1,ano1)){
+			else if(MenorQue(dia2,mes2,ano2,dia1,mes1,ano1)){
 				atribui_esquerda_v(pai,viagem);
 			}
 			else{
@@ -212,4 +208,26 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 		}
 
 	}
+}
+void remover_viagem_u(Usuario *usuario, int id);/*Falta imlementar*/
+Viagem *listar_viagens_u(Usuario *usuario); /*Retorna somente uma viagem?*/
+
+Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
+	if(usuario!=NULL && dia>0 && dia<32 && mes>0 && mes<13 && ano>0){
+		int* dia1,mes1,ano1,periodo;
+		char cidade[61],pais[31];
+		Viagem viagem = usuario->viagens;
+		acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo);
+		while((dia!=dai1 || mes!=mes1 || ano!=ano1) && viagem!=NULL){
+			if(MenorQue(dia,mes,ano,dia1,mes1,ano1)){
+				viagem = atribui_esquerda_v(viagem);
+			}
+			else{
+				viagem = atribui_direita_v(viagem);
+			}
+			acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo);
+		}
+		return viagem;
+	}
+	return NULL;
 }
