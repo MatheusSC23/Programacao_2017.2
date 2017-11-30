@@ -18,7 +18,7 @@ Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo)
 		return NULL;
 	}
 	else{
-		if(strlen(pais)<30 && strlen(cidade)<60){
+		if(strlen(pais)<32 && strlen(cidade)<62){
 			Viagem* v = (Viagem*) malloc(sizeof(Viagem));
 			if(v==NULL){
 				return NULL;
