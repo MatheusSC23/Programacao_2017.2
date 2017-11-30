@@ -14,7 +14,7 @@ struct viagem{
 	Viagem *direita, *esquerda, *pai;
 };
 Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo){
-	if(id<0 || (dia<1 || dia>31) || (mes<1 || mes>12) || ano<1 || cidade==NULL || pais==NULL || periodo<1){
+	if((dia<1 || dia>31) || (mes<1 || mes>12) || ano<1 || cidade==NULL || pais==NULL || periodo<1){
 		return NULL;
 	}
 	else{
@@ -61,14 +61,14 @@ void acessa_v(Viagem *viagem, int *dia, int *mes, int *ano, char *cidade, char *
 } 
 
 void atribui_v(Viagem *viagem, int dia, int mes, int ano, char *cidade, char *pais, int periodo){
-	if((dia=>1 && dia<=31) && (mes>=1 && mes<=12) && ano>=1 && cidade!=NULL && pais!=NULL && periodo>=1){
+	if((dia>0 && dia<=31) && (mes>=1 && mes<=12) && ano>=1 && cidade!=NULL && pais!=NULL && periodo>=1){
 		if(strlen(pais)<30 && strlen(cidade)<60){
 			viagem->dia = dia;
 			viagem->mes = mes;
 			viagem->ano = ano;  
-			v->periodo = periodo;
-			strcpy(v->cidade, cidade);
-			strcpy(v->pais, pais);
+			viagem->periodo = periodo;
+			strcpy(viagem->cidade, cidade);
+			strcpy(viagem->pais, pais);
 		}
 	}
 } 
@@ -93,8 +93,8 @@ Viagem *acessa_direita_v(Viagem *viagem){
 void atribui_esquerda_v(Viagem *viagem, Viagem *esquerda){
 	if(viagem!=NULL){
 		viagem->esquerda = esquerda;
-		if(direita!=NULL){
-			direita->pai = viagem;
+		if(esquerda!=NULL){
+			esquerda->pai = viagem;
 		}
 
 	}
@@ -111,7 +111,7 @@ void atribui_pai_v(Viagem *viagem, Viagem *pai){
 		viagem->pai = pai;
 	}
 }
-Viagem acessa_pai_v(Viagem *viagem){
+Viagem *acessa_pai_v(Viagem *viagem){
 	if(viagem!=NULL){
 		return viagem->pai;
 	}
