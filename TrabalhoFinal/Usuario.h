@@ -18,7 +18,7 @@ Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, in
 Viagem *filtrar_viagens_amigos_por_destino_u(Usuario *usuario, char *cidade, char *pais); 
 Usuario *filtrar_amigos_por_data_viagem_u(Usuario *usuario, int dia, int mes, int ano); 
 Usuario *filtrar_amigos_por_destino_viagem_u(Usuario *usuario, char *cidade, char *pais); 
-int MenorQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2);
+int MenorDoQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2);
 /*Retorna 1 se houver conflito de datas e 0 se não houver*/
 int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, int ano2,int periodo2);
 int tamanho_u(); 

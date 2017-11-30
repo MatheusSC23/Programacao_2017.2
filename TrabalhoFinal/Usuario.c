@@ -39,6 +39,8 @@ void libera_u(Usuario *usuario){
 		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
 			remove_amigo_u(usuario->amigos[i],usuario->id);
 		}
+		free(usuario->amigos);
+		usuario->amigos=NULL;
 		*usuario=vazio;
 		free(usuario);
 		usuario=NULL;
@@ -138,22 +140,22 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 
 Usuario *lista_amigos_u(Usuario *usuario);/*Perguntar o que eu devo retornar*/
 /*Retorna 1 se data1<data2 e 0 se data1>data2*/
-int MenorQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
+int MenorDoQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
 	int diaMes[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};
 	return (dia1+diaMes[mes1]*mes1+ano1*365)<(dia2+diaMes[mes2]*mes2+ano2*365);
 
 }
 /*A data1 tem prioridade enquanto a data2 é a que eu quero adicionar*/
 int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, int ano2,int periodo2){
-	if(MenorQue(dia1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1 é menor que a data 1*/
-		if(MenorQue(dia1+periodo1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1+periodo1 é menor que a data2*/
+	if(MenorDoQue(dia1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1 é menor que a data 1*/
+		if(MenorDoQue(dia1+periodo1,mes1,ano1,dia2,mes2,ano2)==1){ /*Verifica se a data1+periodo1 é menor que a data2*/
 			return 0;
 		}
 		else{
 			return 1;
 		}
 	}
-	else if(MenorQue(dia2+periodo2,mes2,ano2,dia1,mes1,ano1)==1){ /*Verifica se a data2+periodo2 é menor que data1*/
+	else if(MenorDoQue(dia2+periodo2,mes2,ano2,dia1,mes1,ano1)==1){ /*Verifica se a data2+periodo2 é menor que data1*/
 		return 0;
 	}
 	else{
@@ -174,8 +176,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			pai=raiz;
 			acessa_v(raiz,dia1,mes1,ano1,cidade,pais,periodo1);
 			if(conflitoData(*dia1,*mes1,*ano1,*periodo1,*dia2,*mes2,*ano2,*periodo2)!=1){
-				/*(1)raiz<viagem*/
-				if(MenorQue(*dia1,*mes1,*ano1,*dia2,*mes2,*ano2)==1){
+				if(MenorDoQue(*dia1,*mes1,*ano1,*dia2,*mes2,*ano2)==1){  /*(1)raiz<viagem*/
 					/*Se a afirmação (1) é verdadeira*/
 					raiz=acessa_direita_v(raiz);
 				}
@@ -194,7 +195,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			if(pai==NULL){
 				usuario->viagens=viagem;
 			}
-			else if(MenorQue(*dia2,*mes2,*ano2,*dia1,*mes1,*ano1)){
+			else if(MenorDoQue(*dia2,*mes2,*ano2,*dia1,*mes1,*ano1)){
 				atribui_esquerda_v(pai,viagem);
 			}
 			else{
@@ -214,7 +215,7 @@ Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 		Viagem *viagem = usuario->viagens;
 		acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo);
 		while((dia!=*dia1 || mes!=*mes1 || ano!=*ano1) && viagem!=NULL){
-			if(MenorQue(dia,mes,ano,*dia1,*mes1,*ano1)){
+			if(MenorDoQue(dia,mes,ano,*dia1,*mes1,*ano1)){
 				viagem = acessa_esquerda_v(viagem);
 			}
 			else{
@@ -227,8 +228,24 @@ Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 	return NULL;
 }
 
-Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais); 
-Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, int ano); 
+Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais){
+	if(usuario!=NULL && cidade!=NULL && pais!=NULL && usuario->viagens!=NULL){
+		if(strlen(cidade)<62 && strlen(pais)<32){
+			Viagem* viagem = Minimo(usuario->viagens);
+			int *dia,*mes,*ano,*periodo;
+			char cidade2[61],pais2[31];
+			acessa_v(viagem,dia,mes,ano,cidade,pais,periodo);
+			while(strcmp(cidade,cidade2)!=0 && strcmp(pais,pais2)!=0 && viagem!=NULL){
+				viagem=Sucessor(viagem);
+				acessa_v(viagem,dia,mes,ano,cidade,pais,periodo);
+			}
+			return viagem;
+		}
+
+	}
+	return NULL;
+} 
+Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, int ano);
 Viagem *filtrar_viagens_amigos_por_destino_u(Usuario *usuario, char *cidade, char *pais); 
 Usuario *filtrar_amigos_por_data_viagem_u(Usuario *usuario, int dia, int mes, int ano); 
 Usuario *filtrar_amigos_por_destino_viagem_u(Usuario *usuario, char *cidade, char *pais); 

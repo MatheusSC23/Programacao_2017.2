@@ -117,6 +117,26 @@ Viagem *acessa_pai_v(Viagem *viagem){
 	}
 
 }
+Viagem *Minimo(Viagem* viagem){
+	Viagem* retorno = viagem;
+	while(acessa_esquerda_v(viagem)!=NULL){
+		retorno=acessa_esquerda_v(retorno);
+	}
+	return retorno;
+}
+Viagem *Sucessor(Viagem* viagem){
+	if(acessa_direita_v(viagem)!=NULL){
+		return Minimo(viagem);
+	}
+	Viagem *retorno=acessa_pai_v(viagem);
+	while(retorno!=NULL && viagem==acessa_direita_v(retorno)){
+		viagem=retorno;
+		retorno=acessa_pai_v(viagem);
+
+	}
+	return retorno;
+}
+
 int tamanho_v(){
 	return sizeof(Viagem);
 }

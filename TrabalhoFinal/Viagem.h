@@ -10,4 +10,6 @@ void atribui_esquerda_v(Viagem *viagem, Viagem *esquerda);
 Viagem *acessa_esquerda_v(Viagem *viagem); 
 void atribui_pai_v(Viagem *viagem, Viagem *pai);
 Viagem *acessa_pai_v(Viagem *viagem);
+Viagem *Minimo(Viagem* viagem);
+Viagem *Sucessor(Viagem* viagem);
 int tamanho_v(); 
