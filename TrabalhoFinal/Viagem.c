@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Viagem.h"
 #include <string.h>
+int id_viagem=0;
 struct viagem{
 	int id;
 	int dia;
@@ -22,13 +23,17 @@ Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo)
 			if(v==NULL){
 				return NULL;
 			}
-			v->id = id;
+
+			id_viagem++;
+			v->id = id_viagem;
 			v->dia = dia;
 			v->mes = mes;
 			v->ano = ano;
 			strcpy(v->cidade, cidade);
 			strcpy(v->pais, pais);
 			v->periodo = periodo;
+			v->direita=NULL;
+			v->esquerda=NULL;
 			return v;
 		}
 		return NULL;
