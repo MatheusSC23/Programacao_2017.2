@@ -246,7 +246,7 @@ Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 
 Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais){
 	if(usuario!=NULL && cidade!=NULL && pais!=NULL && usuario->viagens!=NULL){
-		if(strlen(cidade)<62 && strlen(pais)<32){
+		if(strlen(cidade)<61 && strlen(pais)<31){
 			Viagem* viagem = Minimo(usuario->viagens);
 			int *dia,*mes,*ano,*periodo, *id;
 			char cidade2[61],pais2[31];
