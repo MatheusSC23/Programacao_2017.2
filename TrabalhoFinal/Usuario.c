@@ -166,16 +166,16 @@ int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, 
 }
 
 void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
-	int *dia1,*dia2,*mes1,*mes2,*ano1,*ano2,*periodo1,*periodo2;
+	int *dia1,*dia2,*mes1,*mes2,*ano1,*ano2,*periodo1,*periodo2,*id;
 	int conflito=0;
 	char cidade[61],pais[31];
 	if(usuario!=NULL && viagem!=NULL){
 		Viagem *pai = NULL;
 		Viagem *raiz = usuario->viagens;
-		acessa_v(viagem,dia2,mes2,ano2,cidade,pais,periodo2);
+		acessa_v(viagem,dia2,mes2,ano2,cidade,pais,periodo2,id);
 		while(raiz!=NULL && conflito==0){
 			pai=raiz;
-			acessa_v(raiz,dia1,mes1,ano1,cidade,pais,periodo1);
+			acessa_v(raiz,dia1,mes1,ano1,cidade,pais,periodo1,id);
 			if(conflitoData(*dia1,*mes1,*ano1,*periodo1,*dia2,*mes2,*ano2,*periodo2)!=1){
 				if(MenorDoQue(*dia1,*mes1,*ano1,*dia2,*mes2,*ano2)==1){  /*(1)raiz<viagem*/
 					/*Se a afirmação (1) é verdadeira*/
@@ -191,7 +191,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			}
 		}
 		if(conflito==0){
-			acessa_v(pai,dia1,mes1,ano1,cidade,pais,periodo1);
+			acessa_v(pai,dia1,mes1,ano1,cidade,pais,periodo1,id);
 			atribui_pai_v(viagem,pai);
 			if(pai==NULL){
 				usuario->viagens=viagem;
@@ -208,14 +208,15 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 }
 void remover_viagem_u(Usuario *usuario, int id){
 	if(usuario!=NULL && id>=0){
-		int *viagem_id;
+		int *dia,*mes,*ano,*periodo,*viagem_id;
+		char cidade[61],pais[31];
 		Viagem* viagem = usuario->viagens;
 		if(viagem != NULL){
 			Viagem* v1 = Minimo(viagem);
-			acessa_id_v(v1,viagem_id);
+			acessa_v(v1,dia,mes,ano,cidade,pais,periodo,viagem_id);
 			while(v1 != NULL && *viagem_id!=id){
 				v1=Sucessor(v1);
-				acessa_id_v(v1,viagem_id);				
+				acessa_v(v1,dia,mes,ano,cidade,pais,periodo,viagem_id);				
 			}
 			Remover(v1);
 		}
@@ -225,10 +226,10 @@ Viagem *listar_viagens_u(Usuario *usuario); /*Retorna somente uma viagem?*/
 
 Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 	if(usuario!=NULL && dia>0 && dia<32 && mes>0 && mes<13 && ano>0){
-		int *dia1,*mes1,*ano1,*periodo;
+		int *dia1,*mes1,*ano1,*periodo,*id;
 		char cidade[61],pais[31];
 		Viagem *viagem = usuario->viagens;
-		acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo);
+		acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo,id);
 		while((dia!=*dia1 || mes!=*mes1 || ano!=*ano1) && viagem!=NULL){
 			if(MenorDoQue(dia,mes,ano,*dia1,*mes1,*ano1)){
 				viagem = acessa_esquerda_v(viagem);
@@ -236,7 +237,7 @@ Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 			else{
 				viagem = acessa_direita_v(viagem);
 			}
-			acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo);
+			acessa_v(viagem,dia1,mes1,ano1,cidade,pais,periodo,id);
 		}
 		return viagem;
 	}
@@ -247,12 +248,12 @@ Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais){
 	if(usuario!=NULL && cidade!=NULL && pais!=NULL && usuario->viagens!=NULL){
 		if(strlen(cidade)<62 && strlen(pais)<32){
 			Viagem* viagem = Minimo(usuario->viagens);
-			int *dia,*mes,*ano,*periodo;
+			int *dia,*mes,*ano,*periodo, *id;
 			char cidade2[61],pais2[31];
-			acessa_v(viagem,dia,mes,ano,cidade,pais,periodo);
+			acessa_v(viagem,dia,mes,ano,cidade,pais,periodo,id);
 			while(strcmp(cidade,cidade2)!=0 && strcmp(pais,pais2)!=0 && viagem!=NULL){
 				viagem=Sucessor(viagem);
-				acessa_v(viagem,dia,mes,ano,cidade,pais,periodo);
+				acessa_v(viagem,dia,mes,ano,cidade,pais,periodo,id);
 			}
 			return viagem;
 		}

@@ -1,0 +1,5 @@
+gcc -std=c99 -c Viagem.c -o Viagem.o
+gcc -std=c99 -c Usuario.c -o Usuario.o
+gcc -std=c99 -c Teste.c -o Teste.o
+gcc -std=c99 -o Teste.bin Viagem.o Usuario.o Teste.o 
+./Teste.bin

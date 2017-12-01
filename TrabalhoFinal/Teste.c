@@ -19,6 +19,7 @@ float testeNovoComDadosValidos(){
 	}
 	return pontuacao;
 }
+<<<<<<< HEAD
 float testeNovoComDadosInvalidos(){
 	char cidade[61] = "C";
 	char pais[31] = "P";
@@ -134,3 +135,5 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	return 0;
 }
+=======
+>>>>>>> d41db876d13299ce7a043a9bd6cd34b98bd17f02
