@@ -158,7 +158,28 @@ void Transplantar(Viagem* viagem1, Viagem* viagem2){
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 }
-
+void Remover(Viagem* viagem){
+	if(viagem!=NULL){
+		if(acessa_esquerda_v(viagem)==NULL){
+			Transplantar(viagem,acessa_direita_v(viagem));
+		}
+		else if(acessa_direita_v(viagem)==NULL){
+			Transplantar(viagem,acessa_esquerda_v(viagem));
+		}
+		else{
+			Viagem* sucessor = Minimo(acessa_direita_v(viagem));
+			if(acessa_pai_v(sucessor)!=viagem){
+				Transplantar(sucessor,acessa_direita_v(sucessor));
+				atribui_direita_v(sucessor, acessa_direita_v(viagem));
+				atribui_pai_v(acessa_direita_v(viagem),sucessor);
+			}
+			Transplantar(viagem,sucessor);
+			atribui_esquerda_v(sucessor,acessa_esquerda_v(viagem));
+			atribui_pai_v(acessa_esquerda_v(sucessor),sucessor);
+		}
+	}
+	
+}
 int tamanho_v(){
 	return sizeof(Viagem);
 }

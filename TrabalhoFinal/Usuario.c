@@ -208,12 +208,16 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 }
 void remover_viagem_u(Usuario *usuario, int id){
 	if(usuario!=NULL && id>=0){
+		int *viagem_id;
 		Viagem* viagem = usuario->viagens;
 		if(viagem != NULL){
 			Viagem* v1 = Minimo(viagem);
-			while(v1 != NULL){
-				
+			acessa_id_v(v1,viagem_id);
+			while(v1 != NULL && *viagem_id!=id){
+				v1=Sucessor(v1);
+				acessa_id_v(v1,viagem_id);				
 			}
+			Remover(v1);
 		}
 	}
 }
