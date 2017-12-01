@@ -9,7 +9,7 @@ float testeNovoComDadosValidos(){
 	int dia,mes,ano,periodo,id;
 	float pontuacao = 0;
 
-	Viagem viagem = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem = nova_v(23,12,2017,"Fortaleza","Brasil",10);
 	if(viagem != NULL){
 		printf("[Passou 1.50] - Teste da função nova_v() com dados válidos!\n");
 		pontuacao = 1.5;
