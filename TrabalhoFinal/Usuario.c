@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "Usuario.h"
 
+
 struct usuario{
 	int id,primeiro,ultimo,tamanho;
 	char nome[81];
@@ -205,7 +206,17 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 
 	}
 }
-void remover_viagem_u(Usuario *usuario, int id);/*Falta implementar*/
+void remover_viagem_u(Usuario *usuario, int id){
+	if(usuario!=NULL && id>=0){
+		Viagem* viagem = usuario->viagens;
+		if(viagem != NULL){
+			Viagem* v1 = Minimo(viagem);
+			while(v1 != NULL){
+				
+			}
+		}
+	}
+}
 Viagem *listar_viagens_u(Usuario *usuario); /*Retorna somente uma viagem?*/
 
 Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){

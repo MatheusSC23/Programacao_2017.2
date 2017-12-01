@@ -88,6 +88,7 @@ Viagem *acessa_direita_v(Viagem *viagem){
 	if(viagem!=NULL){
 		return viagem->direita;
 	}
+	return NULL;
 } 
 /*Atribui a um nó viagem um filho esquerdo*/
 void atribui_esquerda_v(Viagem *viagem, Viagem *esquerda){
@@ -104,6 +105,7 @@ Viagem *acessa_esquerda_v(Viagem *viagem){
 	if(viagem!=NULL){
 		return viagem->esquerda;
 	}
+	return NULL;
 } 
 
 void atribui_pai_v(Viagem *viagem, Viagem *pai){
@@ -115,7 +117,7 @@ Viagem *acessa_pai_v(Viagem *viagem){
 	if(viagem!=NULL){
 		return viagem->pai;
 	}
-
+	return NULL;
 }
 Viagem *Minimo(Viagem* viagem){
 	Viagem* retorno = viagem;
@@ -135,6 +137,26 @@ Viagem *Sucessor(Viagem* viagem){
 
 	}
 	return retorno;
+}
+void acessa_id_v(Viagem* viagem, int* id){
+	if(viagem!=NULL){
+		*id = viagem->id;
+	}
+}
+
+void Transplantar(Viagem* viagem1, Viagem* viagem2){
+	if(acessa_pai_v(viagem1) == NULL){
+		viagem1 = viagem2;
+	}
+	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
+		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
+	}
+	else{
+		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
+	}
+	if(viagem2!=NULL){
+		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
+	}
 }
 
 int tamanho_v(){
