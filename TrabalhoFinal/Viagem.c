@@ -18,7 +18,7 @@ Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo)
 		return NULL;
 	}
 	else{
-		if(strlen(pais)<32 && strlen(cidade)<62){
+		if(strlen(pais)<31 && strlen(cidade)<61){
 			Viagem* v = (Viagem*) malloc(sizeof(Viagem));
 			if(v==NULL){
 				return NULL;
@@ -49,12 +49,13 @@ void libera_v(Viagem *viagem){
 	}
 }
 
-void acessa_v(Viagem *viagem, int *dia, int *mes, int *ano, char *cidade, char *pais, int *periodo){
+void acessa_v(Viagem *viagem, int *dia, int *mes, int *ano, char *cidade, char *pais, int *periodo, int *id){
 	if(viagem!=NULL){
 		*dia = viagem->dia;
 		*mes = viagem->mes;
 		*ano = viagem->ano;
 		*periodo = viagem->periodo;
+		*id = viagem->id;
 		strcpy(cidade, viagem->cidade);
 		strcpy(pais,viagem->pais);
 	}
@@ -62,7 +63,7 @@ void acessa_v(Viagem *viagem, int *dia, int *mes, int *ano, char *cidade, char *
 
 void atribui_v(Viagem *viagem, int dia, int mes, int ano, char *cidade, char *pais, int periodo){
 	if((dia>0 && dia<=31) && (mes>=1 && mes<=12) && ano>=1 && cidade!=NULL && pais!=NULL && periodo>=1){
-		if(strlen(pais)<30 && strlen(cidade)<60){
+		if(strlen(pais)<31 && strlen(cidade)<61){
 			viagem->dia = dia;
 			viagem->mes = mes;
 			viagem->ano = ano;  
@@ -137,11 +138,6 @@ Viagem *Sucessor(Viagem* viagem){
 
 	}
 	return retorno;
-}
-void acessa_id_v(Viagem* viagem, int* id){
-	if(viagem!=NULL){
-		*id = viagem->id;
-	}
 }
 
 void Transplantar(Viagem* viagem1, Viagem* viagem2){
