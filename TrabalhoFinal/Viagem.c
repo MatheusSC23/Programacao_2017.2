@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "Viagem.h"
 #include <string.h>
-int id_viagem=0;
+int id_viagem=-1;
 struct viagem{
 	int id;
 	int dia;
