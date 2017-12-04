@@ -63,26 +63,28 @@ void atribui_u(Usuario *usuario, int id, char *nome){
 }
 
 void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
-	int* usuario_id;
-	char nome[81];
-	acessa_u(amigo,usuario_id,nome);
-	Usuario* NaLista = busca_amigo_u(usuario, *usuario_id);
-	if(usuario!=NULL && amigo!=NULL && usuario->id!=*usuario_id && NaLista==NULL){
-		if(usuario->tamanho<(usuario->tamanho+1)){
-			Usuario** amigos = (Usuario**) realloc(usuario->amigos,(usuario->tamanho+10)*sizeof(Usuario));
-			usuario->amigos = amigos;
-			usuario->tamanho+=10;
+	if(usuario!=NULL && amigo!=NULL){
+		int* usuario_id;
+		char nome[81];
+		acessa_u(amigo,usuario_id,nome);/*Passa o id do amigo para usuario_id*/
+		Usuario* NaLista = busca_amigo_u(usuario, *usuario_id);
+		if(usuario->id!=*usuario_id && NaLista==NULL){
+			if(usuario->tamanho<(usuario->tamanho+1)){
+				Usuario** amigos = (Usuario**) realloc(usuario->amigos,(usuario->tamanho+10)*sizeof(Usuario));
+				usuario->amigos = amigos;
+				usuario->tamanho+=10;
+			}
+			if(usuario->primeiro==-1 && usuario->ultimo==-1){
+				usuario->primeiro++;
+				usuario->ultimo++;
+				usuario->amigos[usuario->primeiro]=amigo;
+			}
+			else{
+				usuario->ultimo++;
+				usuario->amigos[usuario->ultimo]=amigo;
+			}
+			adiciona_amigo_u(amigo,usuario);
 		}
-		if(usuario->primeiro==-1 && usuario->ultimo==-1){
-			usuario->primeiro++;
-			usuario->ultimo++;
-			usuario->amigos[usuario->primeiro]=amigo;
-		}
-		else{
-			usuario->ultimo++;
-			usuario->amigos[usuario->ultimo]=amigo;
-		}
-		adiciona_amigo_u(amigo,usuario);
 	}
 }
 
