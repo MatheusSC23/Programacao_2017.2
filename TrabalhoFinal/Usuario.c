@@ -102,22 +102,24 @@ void remove_amigo_u(Usuario *usuario, int id){
 			}
 			i++;
 		}
-		if(usuario->ultimo>pos){
-			while(pos<usuario->ultimo){
-				usuario->amigos[pos]=usuario->amigos[pos+1];
-				usuario->amigos[pos+1]=NULL;
-				pos++;
+		if(amigo!=NULL){
+			if(usuario->ultimo>pos){
+				while(pos<usuario->ultimo){
+					usuario->amigos[pos]=usuario->amigos[pos+1];
+					usuario->amigos[pos+1]=NULL;
+					pos++;
+				}
+				usuario->ultimo--;
 			}
-			usuario->ultimo--;
+			else if(usuario->ultimo==usuario->primeiro){
+				usuario->ultimo--;
+				usuario->primeiro--;
+			}
+			else{
+				usuario->ultimo--;
+			}
+			remove_amigo_u(amigo, usuario->id);	
 		}
-		else if(usuario->ultimo==usuario->primeiro){
-			usuario->ultimo--;
-			usuario->primeiro--;
-		}
-		else{
-			usuario->ultimo--;
-		}
-		remove_amigo_u(amigo, usuario->id);	
 	}
 }
 
@@ -139,7 +141,7 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 	return NULL;
 }
 
-Usuario *lista_amigos_u(Usuario *usuario);/*Perguntar o que eu devo retornar*/
+Usuario *lista_amigos_u(Usuario *usuario);
 /*Retorna 1 se data1<data2 e 0 se data1>data2*/
 int MenorDoQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
 	int diaMes[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};

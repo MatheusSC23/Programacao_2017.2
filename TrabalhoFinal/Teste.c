@@ -19,7 +19,7 @@ float testeNovoComDadosValidos(){
 	}
 	return pontuacao;
 }
-<<<<<<< HEAD
+
 float testeNovoComDadosInvalidos(){
 	char cidade[61] = "C";
 	char pais[31] = "P";
@@ -93,6 +93,8 @@ float testeAtribuiComDadosValidos(){
 			printf("[Falhou 0.0] - Teste da função atribui_v() com dados válidos!\n");			
 		}
 
+	} else {
+		printf("[Falhou 0.0] - Teste da função atribui_v() com dados válidos!\n");			
 	}
 	return pontuacao;
 
@@ -123,7 +125,58 @@ float testeAtribuiComDadosInvalidos() {
 			printf("[Falhou 0.00] - Teste da função atribui_v() com dados inválidos!\n");
 		}
 
+	} else {
+			printf("[Falhou 0.00] - Teste da função atribui_v() com dados inválidos!\n");
 	}
+	return pontuacao;
+}
+
+float testeAtribuiComDadosNulos() {
+	int dia,mes,ano,periodo,id;
+	char cidade[61];
+	char pais[31];
+	float pontuacao=0;
+	Viagem *viagem = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	if(viagem !=NULL){
+		atribui_v(viagem,2,3,2013,NULL,"EUA",20);
+		atribui_v(viagem,2,3,2013,"Jerusalem", NULL,20);
+		atribui_v(viagem,2,3,2013,NULL,NULL,20);
+		acessa_v(viagem,&dia,&mes,&ano,cidade,pais,&periodo,&id);
+		if(dia == 23 && mes == 12 && ano == 2017 && strcmp(cidade,"Fortaleza") == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+			printf("[Passou 1.00] - Teste da função atribui_v() com dados nulos!\n");
+			pontuacao = 1.0;
+		} else {
+			printf("[Falhou 0.00] - Teste da função atribui_v() com dados nulos!\n");
+		}
+
+	} else {
+			printf("[Falhou 0.00] - Teste da função atribui_v() com dados nulos!\n");
+	}
+
+	return pontuacao;
+
+}
+float testeLiberaComDadosValidos(){
+	int dia,mes,ano,periodo,id;
+	char cidade[61];
+	char pais[31];
+	float pontuacao;
+	Viagem *viagem = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	libera_v(viagem);
+	if(viagem != NULL){
+		acessa_v(viagem,&dia,&mes,&ano,cidade,pais,&periodo,&id);
+		if(dia == 23 && mes == 12 && ano == 2017 && strcmp(cidade,"Fortaleza") == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+			printf("[Falhou 0.00] - Teste da função libera_v() com dados válidos!\n");
+		}
+		else{
+			printf("[Passou 0.65] - Teste da função libera_v() com dados válidos!\n");
+			pontuacao =0.65;
+		}
+	} else {
+		printf("[Passou 0.65] - Teste da função libera_v() com dados válidos!\n");
+		pontuacao =0.65;
+	}
+
 }
 int main(){
 	testeNovoComDadosValidos();
@@ -133,7 +186,7 @@ int main(){
 	testeAtribuiComDadosValidos();
 	testeAtribuiComDadosValidos();
 	testeAtribuiComDadosInvalidos();
+	testeAtribuiComDadosNulos();
+	testeLiberaComDadosValidos();
 	return 0;
 }
-=======
->>>>>>> d41db876d13299ce7a043a9bd6cd34b98bd17f02
