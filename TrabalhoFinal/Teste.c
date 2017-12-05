@@ -178,6 +178,27 @@ float testeLiberaComDadosValidos(){
 	}
 
 }
+float testeListarAmigosComDadosValidos() {
+	float pontuacao;
+	int id;
+	char nome[81];
+	
+	Usuario* Matheus = novo_u(1,"Matheus");
+	Usuario* A = novo_u(2,"A");
+	Usuario* B = novo_u(3,"B");
+	Usuario* C = novo_u(4,"C");
+	Usuario* D = novo_u(5,"D");
+	Usuario* E = novo_u(6,"E");
+	adiciona_amigo_u(Matheus,A);
+	adiciona_amigo_u(Matheus,B);
+	Usuario* lista = lista_amigos_u(Matheus);
+	if(Matheus!=NULL){
+		if(lista == NULL){
+			printf("Falhou");
+		}
+		printf("%s %d \n", nome,id);
+	}
+}
 int main(){
 	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
@@ -188,5 +209,6 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
+	testeListarAmigosComDadosValidos();
 	return 0;
 }
