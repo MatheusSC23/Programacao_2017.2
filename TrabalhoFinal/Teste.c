@@ -193,9 +193,7 @@ float testeListarAmigosComDadosValidos() {
 	adiciona_amigo_u(Matheus,B);
 	Usuario* lista = lista_amigos_u(Matheus);
 	if(Matheus!=NULL){
-		if(lista == NULL){
-			printf("Falhou");
-		}
+		acessa_u(lista[1],&id,nome);
 		printf("%s %d \n", nome,id);
 	}
 }

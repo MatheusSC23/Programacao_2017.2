@@ -66,10 +66,10 @@ void atribui_u(Usuario *usuario, int id, char *nome){
 
 void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 	if(usuario!=NULL && amigo!=NULL){
-		int* usuario_id;
+		int usuario_id;
 		char nome[81];
-		acessa_u(amigo,usuario_id,nome);/*Passa o id do amigo para usuario_id*/
-		if(usuario->id!=*usuario_id && busca_amigo_u(usuario, *usuario_id)==NULL){
+		acessa_u(amigo,&usuario_id,nome);/*Passa o id do amigo para usuario_id*/
+		if(usuario->id!=usuario_id && busca_amigo_u(usuario, usuario_id)==NULL){
 			if(usuario->tamanho<(usuario->tamanho+1)){
 				Usuario** amigos = (Usuario**) realloc(usuario->amigos,usuario->tamanho+10*sizeof(Usuario));
 				usuario->amigos = amigos;
@@ -146,11 +146,11 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 
 Usuario *lista_amigos_u(Usuario *usuario){
 	if(usuario!=NULL && usuario->primeiro!=-1){
-		Usuario* usuarioCopia[usuario->ultimo+1];
+		Usuario* amigosCopia[usuario->ultimo+1];
 		for(int i = 0; i<=usuario->ultimo; i++){
-			usuarioCopia[i] = usuario->amigos[i];
+			amigosCopia[i] = usuario->amigos[i];
 		}
-		return *usuarioCopia;
+		return *amigosCopia;
 	}
 	return NULL;
 }
@@ -354,3 +354,6 @@ Viagem *filtrar_viagens_amigos_por_destino_u(Usuario *usuario, char *cidade, cha
 Usuario *filtrar_amigos_por_data_viagem_u(Usuario *usuario, int dia, int mes, int ano); 
 Usuario *filtrar_amigos_por_destino_viagem_u(Usuario *usuario, char *cidade, char *pais); 
 
+int tamanho_u(){
+	return sizeof(Usuario);
+}
