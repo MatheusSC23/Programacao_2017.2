@@ -6,6 +6,7 @@
 
 struct usuario{
 	int id,primeiro,ultimo,tamanho;
+	int numeroViagens;
 	char nome[81];
 	Usuario **amigos;
 	Viagem *viagens;
@@ -28,6 +29,7 @@ Usuario *novo_u(int id, char *nome){
 		usuario->primeiro = -1;
 		usuario->ultimo = -1;
 		usuario->tamanho = 10;
+		usuario->numeroViagens = 0;
 		return usuario;
 	}
 	return NULL;
@@ -143,7 +145,16 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 	return NULL;
 }
 
-Usuario *lista_amigos_u(Usuario *usuario);
+Usuario *lista_amigos_u(Usuario *usuario){
+	if(usuario!=NULL && usuario->primeiro!=-1){
+		Usuario* usuarioCopia[usuario->ultimo+1];
+		for(int i = 0; i<=usuario->ultimo; i++){
+			usuarioCopia[i] = usuario->amigos[i];
+		}
+		return *usuarioCopia;
+	}
+	return NULL;
+}
 /*Retorna 1 se data1<data2 e 0 se data1>data2*/
 int MenorDoQue(int dia1, int mes1, int ano1, int dia2, int mes2, int ano2){
 	int diaMes[13]={0,31,29,31,30,31,30,31,31,30,31,30,31};
@@ -195,6 +206,7 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 			}
 		}
 		if(conflito==0){
+			usuario->numeroViagens++;
 			acessa_v(pai,dia1,mes1,ano1,cidade,pais,periodo1,id);
 			atribui_pai_v(viagem,pai);
 			if(pai==NULL){
@@ -222,11 +234,27 @@ void remover_viagem_u(Usuario *usuario, int id){
 				v1=Sucessor(v1);
 				acessa_v(v1,dia,mes,ano,cidade,pais,periodo,viagem_id);				
 			}
-			Remover(v1);
+			if(v1 != NULL){
+				Remover(v1);
+				usuario->numeroViagens--;
+			}
+		
 		}
 	}
 }
-Viagem *listar_viagens_u(Usuario *usuario); /*Retorna somente uma viagem?*/
+Viagem *listar_viagens_u(Usuario *usuario){
+	if(usuario!=NULL && usuario->viagens!=NULL){
+		Viagem* copiaViagem[usuario->numeroViagens];
+		Viagem* runner = Minimo(usuario->viagens);
+		int i = 0;
+		while(runner != NULL){
+			copiaViagem[i] = runner;
+			runner = Sucessor(runner);
+			i++;
+		}
+		return *copiaViagem;
+	}
+}
 
 Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){
 	if(usuario!=NULL && dia>0 && dia<32 && mes>0 && mes<13 && ano>0){
