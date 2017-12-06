@@ -178,8 +178,54 @@ float testeLiberaComDadosValidos(){
 	}
 
 }
+float testeNovoUsuarioComDadosValidos(){
+	float pontuacao = 0.0;
+	int id;
+	char nome[81];
+	Usuario* user = novo_u(0,"Matheus");
+	if(user != NULL){
+		acessa_u(user,&id,nome);
+		if(strcmp(nome,"Matheus") == 0 && id == 0){
+			printf("[Passou 0.01] - Teste da função novo_u() com dados válidos!\n");
+			pontuacao = 0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função novo_u() com dados válidos!\n");
+		}
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função novo_u() com dados válidos!\n");
+	}
+	return pontuacao;
+
+}
+
+float testeNovoUsuarioComDadosInvalidos(){
+	float pontuacao = 0.0;
+	int id;
+	char nome[81];
+	Usuario* user1 = novo_u(0,"Matheus");
+	Usuario* user2 = novo_u(-1,"Maria");
+	Usuario* user3 = novo_u(0,"Marta");
+	if(user1 != NULL && user2 == NULL && user3 == NULL){
+		acessa_u(user1,&id,nome);
+		if(strcmp(nome,"Matheus") == 0 && id == 0){
+			printf("[Passou 0.01] - Teste da função novo_u() com dados inválidos!\n");
+			pontuacao = 0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função novo_u() com dados inválidos!\n");
+		}
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função novo_u() com dados inválidos!\n");
+	}
+	return pontuacao;
+
+}
+
 float testeListarAmigosComDadosValidos() {
-	float pontuacao;
+	float pontuacao=0.0;
 	int id;
 	char nome[81];
 	
@@ -191,11 +237,38 @@ float testeListarAmigosComDadosValidos() {
 	Usuario* E = novo_u(6,"E");
 	adiciona_amigo_u(Matheus,A);
 	adiciona_amigo_u(Matheus,B);
-	Usuario* lista = lista_amigos_u(Matheus);
+	adiciona_amigo_u(Matheus,C);
+	adiciona_amigo_u(Matheus,D);
+	adiciona_amigo_u(Matheus,E);
+	Usuario** vetor = lista_amigos_u(Matheus);
+	/*
+		if(Matheus!=NULL){
+			acessa_u(vetor[0],&id,nome);
+			printf("%s %d \n", nome,id);
+			acessa_u(vetor[1],&id,nome);
+			printf("%s %d \n", nome,id);
+			acessa_u(vetor[2],&id,nome);
+			printf("%s %d \n", nome,id);
+			acessa_u(vetor[3],&id,nome);
+			printf("%s %d \n", nome,id);
+			acessa_u(vetor[4],&id,nome);
+			printf("%s %d \n", nome,id);
+		}
+	*/
 	if(Matheus!=NULL){
-		acessa_u(lista[1],&id,nome);
-		printf("%s %d \n", nome,id);
+		acessa_u(vetor[0],&id,nome);
+		if(strcmp(nome,"A")==0 && id==2){
+			printf("[Passou 0.65] - Teste da função lista_amigos_u() com dados válidos!\n");
+			pontuacao=0.65;
+		}
+		else {
+			printf("[Falhou 0.00] - Teste da função lista_amigos_u() com dados válidos!\n");
+		}
 	}
+	else {
+			printf("[Falhou 0.00] - Teste da função lista_amigos_u() com dados válidos!\n");
+	}
+	return pontuacao;
 }
 int main(){
 	testeNovoComDadosValidos();
@@ -207,6 +280,6 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
-	testeListarAmigosComDadosValidos();
+	testeNovoUsuarioComDadosInvalidos();
 	return 0;
 }

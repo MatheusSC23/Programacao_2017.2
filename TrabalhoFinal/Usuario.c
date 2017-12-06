@@ -3,7 +3,6 @@
 #include <stdlib.h>
 #include "Usuario.h"
 
-
 struct usuario{
 	int id,primeiro,ultimo,tamanho;
 	int numeroViagens;
@@ -146,11 +145,11 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 
 Usuario *lista_amigos_u(Usuario *usuario){
 	if(usuario!=NULL && usuario->primeiro!=-1){
-		Usuario* amigosCopia[usuario->ultimo+1];
+		Usuario** amigosCopia = (Usuario**) malloc((usuario->ultimo+1)*tamanho_u());
 		for(int i = 0; i<=usuario->ultimo; i++){
 			amigosCopia[i] = usuario->amigos[i];
 		}
-		return *amigosCopia;
+		return amigosCopia;
 	}
 	return NULL;
 }
@@ -180,18 +179,18 @@ int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, 
 }
 
 void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
-	int *dia1,*dia2,*mes1,*mes2,*ano1,*ano2,*periodo1,*periodo2,*id;
+	int dia1,dia2,mes1,mes2,ano1,ano2,periodo1,periodo2,id;
 	int conflito=0;
 	char cidade[61],pais[31];
 	if(usuario!=NULL && viagem!=NULL){
 		Viagem *pai = NULL;
 		Viagem *raiz = usuario->viagens;
-		acessa_v(viagem,dia2,mes2,ano2,cidade,pais,periodo2,id);
+		acessa_v(viagem,&dia2,&mes2,&ano2,cidade,pais,&periodo2,&id);
 		while(raiz!=NULL && conflito==0){
 			pai=raiz;
-			acessa_v(raiz,dia1,mes1,ano1,cidade,pais,periodo1,id);
-			if(conflitoData(*dia1,*mes1,*ano1,*periodo1,*dia2,*mes2,*ano2,*periodo2)!=1){
-				if(MenorDoQue(*dia1,*mes1,*ano1,*dia2,*mes2,*ano2)==1){  /*(1)raiz<viagem*/
+			acessa_v(raiz,&dia1,&mes1,&ano1,cidade,pais,&periodo1,&id);
+			if(conflitoData(dia1,mes1,ano1,periodo1,dia2,mes2,ano2,periodo2)!=1){
+				if(MenorDoQue(dia1,mes1,ano1,dia2,mes2,ano2)==1){  /*(1)raiz<viagem*/
 					/*Se a afirmação (1) é verdadeira*/
 					raiz=acessa_direita_v(raiz);
 				}
@@ -206,12 +205,12 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 		}
 		if(conflito==0){
 			usuario->numeroViagens++;
-			acessa_v(pai,dia1,mes1,ano1,cidade,pais,periodo1,id);
+			acessa_v(pai,&dia1,&mes1,&ano1,cidade,pais,&periodo1,&id);
 			atribui_pai_v(viagem,pai);
 			if(pai==NULL){
 				usuario->viagens=viagem;
 			}
-			else if(MenorDoQue(*dia2,*mes2,*ano2,*dia1,*mes1,*ano1)){
+			else if(MenorDoQue(dia2,mes2,ano2,dia1,mes1,ano1)){
 				atribui_esquerda_v(pai,viagem);
 			}
 			else{
@@ -223,15 +222,15 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 }
 void remover_viagem_u(Usuario *usuario, int id){
 	if(usuario!=NULL && id>=0){
-		int *dia,*mes,*ano,*periodo,*viagem_id;
+		int dia,mes,ano,periodo,viagem_id;
 		char cidade[61],pais[31];
 		Viagem* viagem = usuario->viagens;
 		if(viagem != NULL){
 			Viagem* v1 = Minimo(viagem);
-			acessa_v(v1,dia,mes,ano,cidade,pais,periodo,viagem_id);
-			while(v1 != NULL && *viagem_id!=id){
+			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
+			while(v1 != NULL && viagem_id!=id){
 				v1=Sucessor(v1);
-				acessa_v(v1,dia,mes,ano,cidade,pais,periodo,viagem_id);				
+				acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
 			}
 			if(v1 != NULL){
 				Remover(v1);
@@ -243,7 +242,7 @@ void remover_viagem_u(Usuario *usuario, int id){
 }
 Viagem *listar_viagens_u(Usuario *usuario){
 	if(usuario!=NULL && usuario->viagens!=NULL){
-		Viagem* copiaViagem[usuario->numeroViagens];
+		Viagem** copiaViagem = (Viagem**) malloc(usuario->numeroViagens*tamanho_v());
 		Viagem* runner = Minimo(usuario->viagens);
 		int i = 0;
 		while(runner != NULL){
@@ -251,7 +250,7 @@ Viagem *listar_viagens_u(Usuario *usuario){
 			runner = Sucessor(runner);
 			i++;
 		}
-		return *copiaViagem;
+		return copiaViagem;
 	}
 }
 
