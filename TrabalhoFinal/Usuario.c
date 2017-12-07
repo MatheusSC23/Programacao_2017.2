@@ -11,29 +11,87 @@ struct usuario{
 	Viagem *viagens;
 };
 
-Usuario** usuarioGlobal;//Vertor contendo todos os usuários
+Usuario** usuarioGlobal = NULL;//Vertor contendo todos os usuários
 int tamanhoGlobal = 10;//Tamanho do verto usarioGlobal
 int posUltimo = -1; //Posição do último usuário criado
 
-Usuario *novo_u(int id, char *nome){
-	if(nome != NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+//Funções do usuarioGlobal
+void adicionarGlobal(Usuario* usuario){
+	if(usuario != NULL){
+		if(usuarioGlobal == NULL){ //Verifica se o usuário já foi alocado
+			usuarioGlobal = (Usuario**) malloc(tamanhoGlobal*tamanho_u()); //Aloca o vetor usuarioGlobal
+		}
+		else if(posUltimo+1>=tamanhoGlobal){ //Verifica se usuarioGlobal está cheio
+			tamanhoGlobal += 10;
+			usuarioGlobal = (Usuario**) realloc(usuarioGlobal,tamanhoGlobal*tamanho_u()); //Realoca usuarioGlobal
+		}
+		posUltimo++; //Soma a posição
+		usuarioGlobal[posUltimo] = usuario; //Adiciona usuário no novo último
+	}
+}
 
-		int idExiste = 0; //Zero significa que o id não existe
-		if(usuarioGlobal != NULL){
+//Função que verifica se o id já está sendo usado e retorna 1 se sim e 0 caso contrário
+int idExiste(int id){
+	if(id>=0){
+		if(posUltimo == -1){
+			return 0;
+		}
+		else{
+			int idExiste = 0;
 			int j = 0;
-			Usuario* runner;
-			while(idExiste!=1 && j<posUltimo){
-				runner = usuarioGlobal[j];
-				if(runner->id == id){
+			int idCopia;
+			char nome[81];
+			while(idExiste == 0 && j<=posUltimo){
+				acessa_u(usuarioGlobal[j],&idCopia,nome);
+				if(id == idCopia){
 					idExiste = 1;
+				}
+			}
+			return idExiste;
+		}
+	}
+	return 0;
+}
+
+//Função que remove um usuario de usuarioGlobal
+void removerGlobal(Usuario* usuario){
+	if(usuario != NULL && posUltimo !=-1){
+		if(posUltimo == 0){
+			if(usuario == usuarioGlobal[posUltimo]){
+				usuarioGlobal[posUltimo] = NULL;
+				free(usuarioGlobal);
+				usuarioGlobal = NULL;
+			}
+		}
+		else{
+			int j = 0;
+			int achado = 0;
+			int id;
+			char nome[81];
+			while(j<=posUltimo && achado == 0){
+				acessa_u(usuarioGlobal[j],&id,nome);
+				if(id == usuario->id){
+					usuarioGlobal[j] = NULL;
+					achado = 1;
 				}
 				j++;
 			}
+			if(achado){
+				for(int i = j; i<posUltimo; i++){
+					usuarioGlobal[i] = usuarioGlobal[i+1];
+					usuarioGlobal[i+1] = NULL;
+				}
+			}
 		}
-		if(idExiste == 1){
+	}
+}
+
+
+Usuario *novo_u(int id, char *nome){
+	if(nome != NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+		if(idExiste(id)){
 			return NULL;
 		}
-
 		Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
 		if(usuario==NULL){
 			return NULL;
@@ -50,23 +108,7 @@ Usuario *novo_u(int id, char *nome){
 		usuario->ultimo = -1;
 		usuario->tamanho = 10;
 		usuario->numeroViagens = 0;
-		if(posUltimo == -1){
-			usuarioGlobal = (Usuario**) malloc(tamanhoGlobal*tamanho_u());
-			usuarioGlobal[0] = usuario;
-			posUltimo++;
-			tamanhoGlobal++;
-		}
-		else if(tamanhoGlobal<posUltimo+1){
-			usuarioGlobal = (Usuario**) realloc(usuarioGlobal,(tamanhoGlobal+10)*tamanho_u());
-			tamanhoGlobal+=10;
-			posUltimo++;
-			usuarioGlobal[posUltimo] = usuario;
-		}
-		else{
-			posUltimo++;
-			usuarioGlobal[posUltimo] = usuario;
-		}
-
+		adicionarGlobal(usuario);
 		return usuario;
 	}
 	return NULL;
@@ -77,7 +119,7 @@ void libera_u(Usuario *usuario){
 		libera_v(usuario->viagens);
 		Usuario vazio;
 		Usuario* amigo;
-		int id = -1;
+		int id;
 		char nome[81];
 		if(usuario->primeiro!=-1){
 			for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
@@ -86,28 +128,7 @@ void libera_u(Usuario *usuario){
 				remove_amigo_u(usuario,id);
 			}
 		}
-		
-		int j = -1;
-		Usuario* runner;
-		do{
-			j++;
-			runner = usuarioGlobal[j];
-		}
-		while(j<tamanhoGlobal && runner->id != usuario->id);
-		if(posUltimo == 0 && j == 0){
-			usuarioGlobal[j] = NULL;
-			free(usuarioGlobal);
-			usuarioGlobal = NULL;
-			tamanhoGlobal = 10;
-			posUltimo--;
-		}
-		else{
-			for(j; j<posUltimo; j++){
-				usuarioGlobal[j] = usuarioGlobal[j+1];
-				usuarioGlobal[j+1] = NULL;
-			}
-		}
-
+		removerGlobal(usuario);
 		free(usuario->amigos);
 		usuario->amigos=NULL;
 		*usuario=vazio;
@@ -124,21 +145,9 @@ void acessa_u(Usuario *usuario, int *id, char *nome){
 } 
 
 void atribui_u(Usuario *usuario, int id, char *nome){
-	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<81){
-		int idExiste = 0;
-		int j = 0;
-		Usuario* runner;
-		while(idExiste == 0 && j<=posUltimo){
-			runner = usuarioGlobal[j];
-			if(id == runner->id){
-				idExiste=1;
-			}
-			j++;
-		}
-		if(idExiste == 0){
-			usuario->id = id;
-			strcpy(usuario->nome,nome);
-		}		
+	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<81 && idExiste(id)){
+		usuario->id = id;
+		strcpy(usuario->nome,nome);	
 	}
 }
 

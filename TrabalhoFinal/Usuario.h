@@ -1,5 +1,9 @@
 #include "Viagem.h"  
 typedef struct usuario Usuario; 
+
+void adicionarGlobal(Usuario* usuario);
+int idExiste(int id);
+void removerGlobal(Usuario* usuario);
  
 Usuario *novo_u(int id, char *nome); 
 void libera_u(Usuario *usuario); 
