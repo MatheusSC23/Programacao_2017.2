@@ -11,25 +11,25 @@ struct usuario{
 	Viagem *viagens;
 };
 
-Usuario** usuarioGlobal;
-int tamanhoGlobal = 10;
-int posUltimo = -1;
+Usuario** usuarioGlobal;//Vertor contendo todos os usuários
+int tamanhoGlobal = 10;//Tamanho do verto usarioGlobal
+int posUltimo = -1; //Posição do último usuário criado
 
 Usuario *novo_u(int id, char *nome){
 	if(nome != NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+
 		int idExiste = 0; //Zero significa que o id não existe
 		if(usuarioGlobal != NULL){
 			int j = 0;
 			Usuario* runner;
-			do{
+			while(idExiste!=1 && j<tamanhoGlobal){
 				runner = usuarioGlobal[j];
 				if(runner->id == id){
 					idExiste = 1;
 				}
 				j++;
-			}while(idExiste!=1 && j<tamanhoGlobal);
+			}
 		}
-
 		if(idExiste == 1){
 			return NULL;
 		}
@@ -50,21 +50,27 @@ Usuario *novo_u(int id, char *nome){
 		usuario->ultimo = -1;
 		usuario->tamanho = 10;
 		usuario->numeroViagens = 0;
-
-		if(usuarioGlobal == NULL){
+		if(posUltimo == -1){
+			printf("Criando usuario %s\n", nome);
 			usuarioGlobal = (Usuario**) malloc(tamanhoGlobal*tamanho_u());
 			usuarioGlobal[0] = usuario;
 			posUltimo++;
 			tamanhoGlobal++;
+			printf("Usuario %s criado\n", nome);
 		}
 		else if(tamanhoGlobal<posUltimo+1){
+			printf("Criando usuario %s\n", nome);
 			usuarioGlobal = (Usuario**) realloc(usuarioGlobal,(tamanhoGlobal+10)*tamanho_u());
 			tamanhoGlobal+=10;
 			posUltimo++;
 			usuarioGlobal[posUltimo] = usuario;
+			printf("Usuario %s criado\n", nome);
 		}
 		else{
+			printf("Criando usuario %s\n", nome);
+			posUltimo++;
 			usuarioGlobal[posUltimo] = usuario;
+			printf("Usuario %s criado\n", nome);
 		}
 
 		return usuario;
@@ -76,9 +82,38 @@ void libera_u(Usuario *usuario){
 	if(usuario!=NULL){
 		libera_v(usuario->viagens);
 		Usuario vazio;
-		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
-			remove_amigo_u(usuario->amigos[i],usuario->id);
+		Usuario* amigo;
+		int id = -1;
+		char nome[81];
+		if(usuario->primeiro!=-1){
+			for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
+				amigo = usuario->amigos[i];
+				acessa_u(amigo,&id,nome);
+				remove_amigo_u(usuario,id);
+			}
 		}
+		
+		int j = -1;
+		Usuario* runner;
+		do{
+			j++;
+			runner = usuarioGlobal[j];
+		}
+		while(j<tamanhoGlobal && runner->id != usuario->id);
+		if(posUltimo == 0 && j == 0){
+			usuarioGlobal[j] = NULL;
+			free(usuarioGlobal);
+			usuarioGlobal = NULL;
+			tamanhoGlobal = 10;
+			posUltimo--;
+		}
+		else{
+			for(j; j<posUltimo; j++){
+				usuarioGlobal[j] = usuarioGlobal[j+1];
+				usuarioGlobal[j+1] = NULL;
+			}
+		}
+
 		free(usuario->amigos);
 		usuario->amigos=NULL;
 		*usuario=vazio;
@@ -95,9 +130,21 @@ void acessa_u(Usuario *usuario, int *id, char *nome){
 } 
 
 void atribui_u(Usuario *usuario, int id, char *nome){
-	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<80){
-		usuario->id = id;
-		strcpy(usuario->nome,nome);
+	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+		int idExiste = 0;
+		int j = 0;
+		Usuario* runner;
+		while(idExiste == 0 && j<=posUltimo){
+			runner = usuarioGlobal[j];
+			if(id == runner->id){
+				idExiste=1;
+			}
+			j++;
+		}
+		if(idExiste == 0){
+			usuario->id = id;
+			strcpy(usuario->nome,nome);
+		}		
 	}
 }
 
@@ -129,13 +176,13 @@ void adiciona_amigo_u(Usuario *usuario, Usuario *amigo){
 void remove_amigo_u(Usuario *usuario, int id){
 	int i=0;
 	int pos = -1;
-	int* usuario_id;
+	int usuario_id;
 	char nome[81];
-	Usuario *amigo=NULL;
+	Usuario *amigo;
 	if(usuario!=NULL && id>=0 && usuario->primeiro!=-1){
 		while(i<=usuario->ultimo && pos==-1 ){
-			acessa_u(usuario->amigos[i],usuario_id,nome);
-			if(*usuario_id==id){
+			acessa_u(usuario->amigos[i],&usuario_id,nome);
+			if(usuario_id==id){
 				amigo=usuario->amigos[i];
 				pos=i;
 				usuario->amigos[i]=NULL;
@@ -365,9 +412,12 @@ Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, in
 				}
 			}
 		}
-		
+		if(numeroViagens == 0){
+			return NULL;
+		}
+
 		int pos = 0;
-		Viagem* ListaDeViagens[numeroViagens];
+		Viagem** ListaDeViagens = (Viagem**) malloc(numeroViagens*tamanho_v());
 		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
 			Usuario* amigo = usuario->amigos[i];
 			if(amigo->viagens != NULL){
@@ -383,6 +433,7 @@ Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, in
 				}
 			}
 		}
+		return ListaDeViagens;
 	
 	}
 	return NULL;
