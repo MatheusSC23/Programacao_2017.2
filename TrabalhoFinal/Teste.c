@@ -216,7 +216,6 @@ float testeAdicionaAmigosComDadosValidos(){
 		acessa_u(vetor[0],&id,nome);
 		if(id == 2 && strcmp(nome,"A") == 0){
 			acessa_u(vetor[1],&id,nome);
-			printf("%s %d\n",nome,id);
 			if(id == 3 && strcmp(nome,"B") == 0){
 				printf("[Passou 0.01] - Teste da função adiciona_amigo_u() com dados válidos!\n");
 				pontuacao=0.65;

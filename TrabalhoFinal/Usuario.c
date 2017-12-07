@@ -22,7 +22,7 @@ Usuario *novo_u(int id, char *nome){
 		if(usuarioGlobal != NULL){
 			int j = 0;
 			Usuario* runner;
-			while(idExiste!=1 && j<tamanhoGlobal){
+			while(idExiste!=1 && j<posUltimo){
 				runner = usuarioGlobal[j];
 				if(runner->id == id){
 					idExiste = 1;
@@ -51,26 +51,20 @@ Usuario *novo_u(int id, char *nome){
 		usuario->tamanho = 10;
 		usuario->numeroViagens = 0;
 		if(posUltimo == -1){
-			printf("Criando usuario %s\n", nome);
 			usuarioGlobal = (Usuario**) malloc(tamanhoGlobal*tamanho_u());
 			usuarioGlobal[0] = usuario;
 			posUltimo++;
 			tamanhoGlobal++;
-			printf("Usuario %s criado\n", nome);
 		}
 		else if(tamanhoGlobal<posUltimo+1){
-			printf("Criando usuario %s\n", nome);
 			usuarioGlobal = (Usuario**) realloc(usuarioGlobal,(tamanhoGlobal+10)*tamanho_u());
 			tamanhoGlobal+=10;
 			posUltimo++;
 			usuarioGlobal[posUltimo] = usuario;
-			printf("Usuario %s criado\n", nome);
 		}
 		else{
-			printf("Criando usuario %s\n", nome);
 			posUltimo++;
 			usuarioGlobal[posUltimo] = usuario;
-			printf("Usuario %s criado\n", nome);
 		}
 
 		return usuario;
