@@ -11,8 +11,29 @@ struct usuario{
 	Viagem *viagens;
 };
 
+Usuario** usuarioGlobal;
+int tamanhoGlobal = 10;
+int posUltimo = -1;
+
 Usuario *novo_u(int id, char *nome){
 	if(nome != NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+		int idExiste = 0; //Zero significa que o id não existe
+		if(usuarioGlobal != NULL){
+			int j = 0;
+			Usuario* runner;
+			do{
+				runner = usuarioGlobal[j];
+				if(runner->id == id){
+					idExiste = 1;
+				}
+				j++;
+			}while(idExiste!=1 && j<tamanhoGlobal);
+		}
+
+		if(idExiste == 1){
+			return NULL;
+		}
+
 		Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
 		if(usuario==NULL){
 			return NULL;
@@ -29,6 +50,23 @@ Usuario *novo_u(int id, char *nome){
 		usuario->ultimo = -1;
 		usuario->tamanho = 10;
 		usuario->numeroViagens = 0;
+
+		if(usuarioGlobal == NULL){
+			usuarioGlobal = (Usuario**) malloc(tamanhoGlobal*tamanho_u());
+			usuarioGlobal[0] = usuario;
+			posUltimo++;
+			tamanhoGlobal++;
+		}
+		else if(tamanhoGlobal<posUltimo+1){
+			usuarioGlobal = (Usuario**) realloc(usuarioGlobal,(tamanhoGlobal+10)*tamanho_u());
+			tamanhoGlobal+=10;
+			posUltimo++;
+			usuarioGlobal[posUltimo] = usuario;
+		}
+		else{
+			usuarioGlobal[posUltimo] = usuario;
+		}
+
 		return usuario;
 	}
 	return NULL;

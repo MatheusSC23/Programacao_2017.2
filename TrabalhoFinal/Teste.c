@@ -281,5 +281,6 @@ int main(){
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
 	testeNovoUsuarioComDadosInvalidos();
+	testeNovoUsuarioComDadosValidos();
 	return 0;
 }
