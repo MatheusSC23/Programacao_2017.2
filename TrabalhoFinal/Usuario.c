@@ -61,7 +61,6 @@ void removerGlobal(Usuario* usuario){
 			if(usuario == usuarioGlobal[posUltimo]){
 				usuarioGlobal[posUltimo] = NULL;
 				posUltimo--;
-				printf("%d\n",posUltimo);
 			}
 		}
 		else{
@@ -71,25 +70,19 @@ void removerGlobal(Usuario* usuario){
 			char nome[81];
 			while(j<=posUltimo && achado == 0){
 				acessa_u(usuarioGlobal[j],&id,nome);
-				printf("%d == %d\n",id,usuario->id );
 				if(id == usuario->id){
 					achado = 1;
 				}
 				j++;
 			}
 			if(achado == 1){
-				for(int i = j; i<posUltimo; i++){
+				for(int i = j-1; i<posUltimo; i++){
 					usuarioGlobal[i] = usuarioGlobal[i+1];
-					acessa_u(usuarioGlobal[i],&id,nome);
-					printf(" %s %d\n",nome,id);
-					usuarioGlobal[i+1] = NULL;
+					usuarioGlobal[i+1] = NULL;					
 				}
 				posUltimo--;
 			}
 		}
-	}
-	else{
-		printf("Não removeu usuario == NULL %d\n",usuario == NULL);
 	}
 	
 }
