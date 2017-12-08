@@ -353,6 +353,7 @@ Viagem *listar_viagens_u(Usuario *usuario){
 		}
 		return copiaViagem;
 	}
+	return NULL;
 }
 
 Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano){

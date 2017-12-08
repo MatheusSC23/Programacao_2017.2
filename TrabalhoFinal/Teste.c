@@ -607,8 +607,117 @@ float testeBuscaAmigoComDadosInvalidos(){
 	return pontuacao;
 }
 
+float testeAdicionarViagemComDadosValidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(23,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,05,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(23,07,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem4 = nova_v(23,10,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem5 = nova_v(23,04,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem6 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem6);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem3);
+	Viagem** vetor = listar_viagens_u(Matheus);
+
+	acessa_v(vetor[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+	acessa_v(vetor[1],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+	acessa_v(vetor[2],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+	acessa_v(vetor[3],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+	acessa_v(vetor[4],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+	acessa_v(vetor[5],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
+
+	return pontuacao;
+}
+
+float testeAtribuiDireitaComDadosValidos(){
+	float pontuacao;
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Viagem* viagem1 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,12,2018,"Fortaleza","Brasil",10);
+
+	atribui_direita_v(viagem1,viagem2);
+	acessa_v(acessa_direita_v(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	if(dia == 23 && mes == 12 && ano == 2018 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+		printf("[Passou 0.1] - Teste da função atribui_direita_v() com dados válidos!\n");
+	}
+	else{
+			printf("[Falhou 0.00] - Teste da função atribui_direita_v() com dados válidos!\n");
+	}
+}
+
+float testeAtribuiEsquerdaComDadosValidos(){
+	float pontuacao;
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Viagem* viagem1 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,12,2018,"Fortaleza","Brasil",10);
+
+	atribui_esquerda_v(viagem1,viagem2);
+	acessa_v(acessa_esquerda_v(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	if(dia == 23 && mes == 12 && ano == 2018 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+		printf("[Passou 0.1] - Teste da função atribui_esquerda_v() com dados válidos!\n");
+	}
+	else{
+			printf("[Falhou 0.00] - Teste da função atribui_esquerda_v() com dados válidos!\n");
+	}
+}
+
+float testeMinimoComDadosValidos(){
+	float pontuacao;
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Viagem* viagem1 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,12,2018,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(23,12,2019,"Fortaleza","Brasil",10);
+	atribui_esquerda_v(viagem1,viagem2);
+	atribui_direita_v(viagem1,viagem3);
+	acessa_v(Minimo(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	if(dia == 23 && mes == 12 && ano == 2018 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+		printf("[Passou 0.1] - Teste da função Minimo() com dados válidos!\n");
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função Minimo() com dados válidos!\n");
+	}
+}
+
+float testeSucessorComDadosValidos(){
+	float pontuacao;
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Viagem* viagem1 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,12,2018,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(23,12,2019,"Fortaleza","Brasil",10);
+	atribui_esquerda_v(viagem1,viagem2);
+	atribui_direita_v(viagem1,viagem3);
+	acessa_v(Sucessor(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+	if(dia == 23 && mes == 12 && ano == 2019 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
+		printf("[Passou 0.1] - Teste da função Sucessor() com dados válidos!\n");
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função Sucessor() com dados válidos!\n");
+	}
+}
+
 int main(){
-	printf("Funções de Viajem\n\n");
+	/*printf("Funções de Viajem\n\n");
 	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
 	testeNovoComDadosNulos();
@@ -631,6 +740,11 @@ int main(){
 	testeAtribuiUsuarioComDadosInvalidos();
 	testeAtribuiUsuarioComDadosNulos();
 	testeBuscaAmigoComDadosValidos();
-	testeBuscaAmigoComDadosInvalidos();
+	testeBuscaAmigoComDadosInvalidos();*/
+/*	testeAtribuiDireitaComDadosValidos();
+	testeAtribuiEsquerdaComDadosValidos();
+	testeMinimoComDadosValidos();
+	testeSucessorComDadosValidos();*/
+	testeAdicionarViagemComDadosValidos();
 	return 0;
 }
