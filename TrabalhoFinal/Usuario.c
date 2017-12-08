@@ -33,7 +33,7 @@ void adicionarGlobal(Usuario* usuario){
 //Função que verifica se o id já está sendo usado e retorna 1 se sim e 0 caso contrário
 int idExiste(int id){
 	if(id>=0){
-		if(posUltimo == -1){
+		if(posUltimo<=-1){
 			return 0;
 		}
 		else{
@@ -56,11 +56,12 @@ int idExiste(int id){
 
 //Função que remove um usuario de usuarioGlobal
 void removerGlobal(Usuario* usuario){
-	if(usuario != NULL && posUltimo !=-1){
+	if(usuario != NULL && posUltimo>-1){
 		if(posUltimo == 0){
 			if(usuario == usuarioGlobal[posUltimo]){
 				usuarioGlobal[posUltimo] = NULL;
 				posUltimo--;
+				printf("%d\n",posUltimo);
 			}
 		}
 		else{
@@ -70,21 +71,27 @@ void removerGlobal(Usuario* usuario){
 			char nome[81];
 			while(j<=posUltimo && achado == 0){
 				acessa_u(usuarioGlobal[j],&id,nome);
+				printf("%d == %d\n",id,usuario->id );
 				if(id == usuario->id){
-					usuarioGlobal[j] = NULL;
 					achado = 1;
 				}
 				j++;
 			}
-			if(achado){
+			if(achado == 1){
 				for(int i = j; i<posUltimo; i++){
 					usuarioGlobal[i] = usuarioGlobal[i+1];
+					acessa_u(usuarioGlobal[i],&id,nome);
+					printf(" %s %d\n",nome,id);
 					usuarioGlobal[i+1] = NULL;
 				}
 				posUltimo--;
 			}
 		}
 	}
+	else{
+		printf("Não removeu usuario == NULL %d\n",usuario == NULL);
+	}
+	
 }
 
 
@@ -118,19 +125,21 @@ Usuario *novo_u(int id, char *nome){
 
 void libera_u(Usuario *usuario){
 	if(usuario!=NULL){
+		removerGlobal(usuario);
 		libera_v(usuario->viagens);
 		Usuario vazio;
 		Usuario* amigo;
 		int id;
 		char nome[81];
-		if(usuario->primeiro!=-1){
-			for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
-				amigo = usuario->amigos[i];
+
+		if(usuario->primeiro != -1){
+			while(usuario->primeiro>=0){
+				amigo = usuario->amigos[0];
 				acessa_u(amigo,&id,nome);
 				remove_amigo_u(usuario,id);
 			}
 		}
-		removerGlobal(usuario);
+		
 		free(usuario->amigos);
 		usuario->amigos=NULL;
 		*usuario=vazio;
@@ -147,9 +156,17 @@ void acessa_u(Usuario *usuario, int *id, char *nome){
 } 
 
 void atribui_u(Usuario *usuario, int id, char *nome){
-	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<81 && idExiste(id)){
-		usuario->id = id;
-		strcpy(usuario->nome,nome);	
+	if(usuario!=NULL && id>=0 && nome!=NULL && strlen(nome)<81){
+		if(id == usuario->id){
+			strcpy(usuario->nome,nome);	
+			printf("Nome foi mudado\n");
+		}
+		else{
+			if(!idExiste(id)){
+				strcpy(usuario->nome,nome);
+				usuario->id = id;
+			}
+		}
 	}
 }
 
@@ -190,11 +207,10 @@ void remove_amigo_u(Usuario *usuario, int id){
 			if(usuario_id==id){
 				amigo=usuario->amigos[i];
 				pos=i;
-				usuario->amigos[i]=NULL;
 			}
 			i++;
 		}
-		if(amigo!=NULL){
+		if(amigo!=NULL && pos>-1){
 			if(usuario->ultimo>pos){
 				while(pos<usuario->ultimo){
 					usuario->amigos[pos]=usuario->amigos[pos+1];
@@ -206,8 +222,10 @@ void remove_amigo_u(Usuario *usuario, int id){
 			else if(usuario->ultimo==usuario->primeiro){
 				usuario->ultimo--;
 				usuario->primeiro--;
+				usuario->amigos[0] = NULL;
 			}
-			else{
+			else if(pos == usuario->ultimo){
+				usuario->amigos[pos] = NULL;
 				usuario->ultimo--;
 			}
 			remove_amigo_u(amigo, usuario->id);	
@@ -236,7 +254,7 @@ Usuario *busca_amigo_u(Usuario *usuario, int id){
 Usuario *lista_amigos_u(Usuario *usuario){
 	if(usuario!=NULL && usuario->primeiro!=-1){
 		Usuario** amigosCopia = (Usuario**) malloc((usuario->ultimo+1)*tamanho_u());
-		for(int i = 0; i<=usuario->ultimo; i++){
+		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
 			amigosCopia[i] = usuario->amigos[i];
 		}
 		return amigosCopia;

@@ -179,6 +179,79 @@ float testeLiberaComDadosValidos(){
 	return pontuacao;
 
 }
+float testeLiberarUsuarioComDadosValidos(){
+	int id1,id2,id3;
+	char nome1[81],nome2[81],nome3[81];
+	float pontuacao = 0;
+	Usuario* Matheus = novo_u(6,"Matheus");
+	Usuario* user1 = novo_u(1,"user1");
+	Usuario* user2 = novo_u(2,"user2");
+	Usuario* user3 = novo_u(3,"user3");
+	Usuario* user4 = novo_u(4,"user4");
+	Usuario* user5 = novo_u(5,"user5");
+
+	adiciona_amigo_u(Matheus,user1);
+	adiciona_amigo_u(Matheus,user2);
+	adiciona_amigo_u(Matheus,user3);
+	adiciona_amigo_u(Matheus,user4);
+	adiciona_amigo_u(Matheus,user5);
+
+	libera_u(user3);
+	libera_u(user4);
+	if(Matheus != NULL && user1 != NULL && user2 != NULL && user5 != NULL){
+		Usuario** vetor = lista_amigos_u(Matheus);
+		acessa_u(vetor[0],&id1,nome1);
+		acessa_u(vetor[1],&id2,nome2);
+		acessa_u(vetor[2],&id3,nome3);
+		if(id1 == 1 && id2 == 2 && id3 == 5 && strcmp(nome1,"user1") == 0 && strcmp(nome2,"user2") == 0 && strcmp(nome3,"user5") == 0){
+			printf("[Passou 0.01] - Teste da função libera_u() com dados válidos!\n");
+			pontuacao = 0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função libera_u() com dados válidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00] - Teste da função libera_u() com dados válidos!\n");
+	}
+	libera_u(Matheus);
+	libera_u(user1);
+	libera_u(user2);
+	libera_u(user5);
+
+	return pontuacao;
+
+}
+float testeRemoverAmigoComDadosValidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+
+	Usuario* Matheus = novo_u(1,"Matheus");
+	Usuario* A = novo_u(2,"A");
+	adiciona_amigo_u(Matheus,A);
+	Usuario** vetor = lista_amigos_u(Matheus);
+
+	if(Matheus != NULL && A != NULL){
+		acessa_u(vetor[0],&id,nome);
+		if(id == 2 && strcmp(nome,"A") == 0){
+			remove_amigo_u(Matheus,2);
+			vetor = lista_amigos_u(Matheus);
+			if(vetor == NULL){
+				printf("[Passou 0.01] - Teste da função remove_amigo_u() com dados válidos!\n");
+				pontuacao = 0.01;
+			}
+			else{
+				printf("[Falhou 0.00*] - Teste da função remove_amigo_u() com dados válidos!\n");
+			}
+		}		
+		else{
+				printf("[Falhou 0.00**] - Teste da função remove_amigo_u() com dados válidos!\n");
+		}		
+	}
+
+}
+
 float testeNovoUsuarioComDadosValidos(){
 	float pontuacao = 0.0;
 	int id;
@@ -218,7 +291,7 @@ float testeAdicionaAmigosComDadosValidos(){
 			acessa_u(vetor[1],&id,nome);
 			if(id == 3 && strcmp(nome,"B") == 0){
 				printf("[Passou 0.01] - Teste da função adiciona_amigo_u() com dados válidos!\n");
-				pontuacao=0.65;
+				pontuacao=0.01;
 			}
 			else{
 				printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados válidos!\n");
@@ -235,12 +308,70 @@ float testeAdicionaAmigosComDadosValidos(){
 				printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados válidos!\n");
 
 	}
-	libera_u(A);
 	libera_u(Matheus);
+	libera_u(A);
 	libera_u(B);
 	return pontuacao;
 
 }
+float testeAdicionaAmigosComDadosInvalidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	
+	Usuario* Matheus = novo_u(1,"Matheus");
+	Usuario* A = novo_u(-1,"A");
+	Usuario* B = novo_u(1,"B");
+	adiciona_amigo_u(Matheus,A);
+	adiciona_amigo_u(Matheus,B);
+	Usuario** vetor = lista_amigos_u(Matheus);
+	if(Matheus != NULL && A == NULL && B == NULL){
+		if(vetor == NULL){
+			printf("[Passou 0.01] - Teste da função adiciona_amigo_u() com dados inválidos!\n");
+			pontuacao=0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados inválidos!\n");
+
+		}
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados inválidos!\n");
+
+	}
+	libera_u(Matheus);
+	return pontuacao;
+
+}
+
+float testeAdicionaAmigosComDadosNulos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	
+	Usuario* Matheus = novo_u(1,"Matheus");
+	adiciona_amigo_u(Matheus,NULL);
+	Usuario** vetor = lista_amigos_u(Matheus);
+	if(Matheus != NULL){
+		if(vetor == NULL){
+			printf("[Passou 0.01] - Teste da função adiciona_amigo_u() com dados nulos!\n");
+			pontuacao=0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados nulos!\n");
+
+		}
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função adiciona_amigo_u() com dados nulos!\n");
+
+	}
+
+	libera_u(Matheus);
+	return pontuacao;
+
+}
+
 float testeNovoUsuarioComDadosInvalidos(){
 	float pontuacao = 0.0;
 	int id;
@@ -302,7 +433,7 @@ float testeListarAmigosComDadosValidos() {
 			printf("%s %d \n", nome,id);
 		}
 	*/
-	if(Matheus!=NULL){
+	/*if(Matheus!=NULL){
 		acessa_u(vetor[0],&id,nome);
 		if(strcmp(nome,"A")==0 && id==2){
 			printf("[Passou 0.65] - Teste da função lista_amigos_u() com dados válidos!\n");
@@ -314,11 +445,41 @@ float testeListarAmigosComDadosValidos() {
 	}
 	else {
 			printf("[Falhou 0.00] - Teste da função lista_amigos_u() com dados válidos!\n");
+	}*/
+	libera_u(Matheus);
+	libera_u(A);
+	libera_u(B);
+	libera_u(C);
+	libera_u(D);
+	libera_u(E);
+	return pontuacao;
+}
+float testeAtribuiUsuarioComDadosValidos(){
+
+	float pontuacao;
+	int id;
+	char nome[81];
+	Usuario* Matheus = novo_u(0,"Matheus");
+	atribui_u(Matheus,10,"Matheus Correia");
+	if(Matheus != NULL){
+		acessa_u(Matheus,&id,nome);
+		printf("nome: %s id: %d\n",nome, id );
+		if(id == 1 && strcmp(nome,"Matheus Correia") == 0){
+			printf("[Passou 0.1] - Teste da função atribui_u() com dados válidos!\n");
+			pontuacao=0.1;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função atribui_u() com dados válidos!\n");
+		}
+
+	}
+	else{
+			printf("[Falhou 0.00*] - Teste da função atribui_u() com dados válidos!\n");
 	}
 	return pontuacao;
 }
 int main(){
-	testeNovoComDadosValidos();
+/*	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
 	testeNovoComDadosNulos();
 	testeAcessa();
@@ -327,8 +488,17 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
+	printf("\n\nFunções do usuário\n\n");
 	testeNovoUsuarioComDadosValidos();
 	testeNovoUsuarioComDadosInvalidos();
 	testeAdicionaAmigosComDadosValidos();
+	testeAdicionaAmigosComDadosInvalidos();
+	testeAdicionaAmigosComDadosNulos();
+	testeLiberarUsuarioComDadosValidos();
+	
+	testeRemoverAmigoComDadosValidos();
+
+	testeAtribuiUsuarioComDadosValidos();*/
+	testeListarAmigosComDadosValidos();
 	return 0;
 }
