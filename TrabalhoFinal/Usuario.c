@@ -46,6 +46,7 @@ int idExiste(int id){
 				if(id == idCopia){
 					idExiste = 1;
 				}
+				j++;
 			}
 			return idExiste;
 		}
@@ -59,8 +60,7 @@ void removerGlobal(Usuario* usuario){
 		if(posUltimo == 0){
 			if(usuario == usuarioGlobal[posUltimo]){
 				usuarioGlobal[posUltimo] = NULL;
-				free(usuarioGlobal);
-				usuarioGlobal = NULL;
+				posUltimo--;
 			}
 		}
 		else{
@@ -81,6 +81,7 @@ void removerGlobal(Usuario* usuario){
 					usuarioGlobal[i] = usuarioGlobal[i+1];
 					usuarioGlobal[i+1] = NULL;
 				}
+				posUltimo--;
 			}
 		}
 	}
@@ -92,6 +93,7 @@ Usuario *novo_u(int id, char *nome){
 		if(idExiste(id)){
 			return NULL;
 		}
+
 		Usuario* usuario = (Usuario*) malloc(sizeof(Usuario));
 		if(usuario==NULL){
 			return NULL;

@@ -209,10 +209,8 @@ float testeAdicionaAmigosComDadosValidos(){
 	Usuario* Matheus = novo_u(1,"Matheus");
 	Usuario* A = novo_u(2,"A");
 	Usuario* B = novo_u(3,"B");
-	printf("Passou\n");
 	adiciona_amigo_u(Matheus,A);
 	adiciona_amigo_u(Matheus,B);
-	printf("Saiu\n");
 	Usuario** vetor = lista_amigos_u(Matheus);
 	if(Matheus != NULL && A != NULL && B != NULL){
 		acessa_u(vetor[0],&id,nome);
@@ -320,7 +318,7 @@ float testeListarAmigosComDadosValidos() {
 	return pontuacao;
 }
 int main(){
-/*	testeNovoComDadosValidos();
+	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
 	testeNovoComDadosNulos();
 	testeAcessa();
@@ -329,8 +327,8 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
+	testeNovoUsuarioComDadosValidos();
 	testeNovoUsuarioComDadosInvalidos();
-*/	/*testeNovoUsuarioComDadosValidos();*/
 	testeAdicionaAmigosComDadosValidos();
 	return 0;
 }
