@@ -334,7 +334,7 @@ void remover_viagem_u(Usuario *usuario, int id){
 				acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
 			}
 			if(v1 != NULL){
-				Remover(v1);
+				Remover(usuario->viagens,v1);
 				usuario->numeroViagens--;
 			}
 		
@@ -410,7 +410,7 @@ Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais){
 	return NULL;
 } 
 Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, int ano){
-	if(usuario!=NULL && dia<32 && dia>0 && mes<32 && mes>0 && ano>0 && usuario->amigos!=NULL){
+	if(usuario!=NULL && dia<32 && dia>0 && mes<32 && mes>0 && ano>0 && usuario->primeiro>-1){
 		int numeroViagens = 0;
 		int dia2,mes2,ano2,periodo2,id2;
 		char cidade[61],pais[31];
@@ -455,7 +455,52 @@ Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, in
 	}
 	return NULL;
 }
-Viagem *filtrar_viagens_amigos_por_destino_u(Usuario *usuario, char *cidade, char *pais); 
+Viagem *filtrar_viagens_amigos_por_destino_u(Usuario *usuario, char *cidade, char *pais){
+	if(usuario != NULL && cidade != NULL && pais != NULL && usuario->primeiro>-1 && strlen(cidade)<61 && strlen(pais)<31){
+		int numeroViagens = 0;
+		int dia,mes,ano,periodo,id;
+		char cidade2[61],pais2[31];
+		/*Conta quantas viagens os amigos tem naquele destino e salva o valor em numeroViagens*/
+		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
+			Usuario* amigo = usuario->amigos[i];
+			if(usuario->primeiro>-1){
+				Viagem* runner = Minimo(amigo->viagens);
+				acessa_v(runner,&dia,&mes,&ano,cidade2,pais2,&periodo,&id);
+				while(runner != NULL){
+					if(strcmp(cidade,cidade2) == 0 && strcmp(pais,pais2) == 0){
+						numeroViagens++;
+					}
+					runner = Sucessor(runner);
+					acessa_v(runner,&dia,&mes,&ano,cidade2,pais2,&periodo,&id);
+				}
+			}
+		}
+		if(numeroViagens == 0){
+			return NULL;
+		}
+
+		int pos = 0;
+		Viagem** ListaDeViagens = (Viagem**) malloc(numeroViagens*tamanho_v());
+		for(int i = usuario->primeiro; i<=usuario->ultimo; i++){
+			Usuario* amigo = usuario->amigos[i];
+			if(usuario->primeiro>-1){
+				Viagem* runner = Minimo(amigo->viagens);
+				acessa_v(runner,&dia,&mes,&ano,cidade2,pais2,&periodo,&id);
+				while(runner != NULL){
+					if(strcmp(cidade,cidade2) == 0 && strcmp(pais,pais2) == 0){
+						ListaDeViagens[pos]=runner;
+						pos++;
+					}
+					runner = Sucessor(runner);
+					acessa_v(runner,&dia,&mes,&ano,cidade2,pais2,&periodo,&id);
+				}
+			}
+		}
+		return ListaDeViagens;
+	
+	}
+	return NULL;
+}
 Usuario *filtrar_amigos_por_data_viagem_u(Usuario *usuario, int dia, int mes, int ano); 
 Usuario *filtrar_amigos_por_destino_viagem_u(Usuario *usuario, char *cidade, char *pais); 
 

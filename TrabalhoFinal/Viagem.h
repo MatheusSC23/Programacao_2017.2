@@ -12,6 +12,6 @@ void atribui_pai_v(Viagem *viagem, Viagem *pai);
 Viagem *acessa_pai_v(Viagem *viagem);
 Viagem *Minimo(Viagem* viagem);
 Viagem *Sucessor(Viagem* viagem);
-void Transplantar(Viagem* viagem1, Viagem* viagem2);
-void Remover(Viagem* viagem);
+void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2);
+void Remover(Viagem* raiz, Viagem* viagem);
 int tamanho_v(); 

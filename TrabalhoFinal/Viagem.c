@@ -128,7 +128,10 @@ Viagem *Minimo(Viagem* viagem){
 	return retorno;
 }
 Viagem *Sucessor(Viagem* viagem){
-	if(acessa_direita_v(viagem)!=NULL){
+	if(viagem == NULL){
+		return NULL;
+	}
+	else if(acessa_direita_v(viagem)!=NULL){
 		return Minimo(acessa_direita_v(viagem));
 	}
 	Viagem *retorno=acessa_pai_v(viagem);
@@ -140,9 +143,10 @@ Viagem *Sucessor(Viagem* viagem){
 	return retorno;
 }
 
-void Transplantar(Viagem* viagem1, Viagem* viagem2){
+void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
+
 	if(acessa_pai_v(viagem1) == NULL){
-		viagem1 = viagem2;
+		raiz = viagem2;
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
@@ -150,26 +154,26 @@ void Transplantar(Viagem* viagem1, Viagem* viagem2){
 	else{
 		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
 	}
-	if(viagem2!=NULL){
+	if(viagem2!=NULL && viagem2 != raiz){
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 }
-void Remover(Viagem* viagem){
+void Remover(Viagem* raiz, Viagem* viagem){
 	if(viagem!=NULL){
 		if(acessa_esquerda_v(viagem)==NULL){
-			Transplantar(viagem,acessa_direita_v(viagem));
+			Transplantar(raiz,viagem,acessa_direita_v(viagem));
 		}
 		else if(acessa_direita_v(viagem)==NULL){
-			Transplantar(viagem,acessa_esquerda_v(viagem));
+			Transplantar(raiz,viagem,acessa_esquerda_v(viagem));
 		}
 		else{
 			Viagem* sucessor = Minimo(acessa_direita_v(viagem));
 			if(acessa_pai_v(sucessor)!=viagem){
-				Transplantar(sucessor,acessa_direita_v(sucessor));
+				Transplantar(raiz,sucessor,acessa_direita_v(sucessor));
 				atribui_direita_v(sucessor, acessa_direita_v(viagem));
 				atribui_pai_v(acessa_direita_v(viagem),sucessor);
 			}
-			Transplantar(viagem,sucessor);
+			Transplantar(raiz,viagem,sucessor);
 			atribui_esquerda_v(sucessor,acessa_esquerda_v(viagem));
 			atribui_pai_v(acessa_esquerda_v(sucessor),sucessor);
 		}

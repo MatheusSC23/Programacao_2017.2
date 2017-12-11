@@ -425,20 +425,7 @@ float testeListarAmigosComDadosValidos() {
 	adiciona_amigo_u(Matheus,D);
 	adiciona_amigo_u(Matheus,E);
 	Usuario** vetor = lista_amigos_u(Matheus);
-	/*
-		if(Matheus!=NULL){
-			acessa_u(vetor[0],&id,nome);
-			printf("%s %d \n", nome,id);
-			acessa_u(vetor[1],&id,nome);
-			printf("%s %d \n", nome,id);
-			acessa_u(vetor[2],&id,nome);
-			printf("%s %d \n", nome,id);
-			acessa_u(vetor[3],&id,nome);
-			printf("%s %d \n", nome,id);
-			acessa_u(vetor[4],&id,nome);
-			printf("%s %d \n", nome,id);
-		}
-	*/
+
 	if(Matheus!=NULL){
 		acessa_u(vetor[0],&id,nome);
 		if(strcmp(nome,"A")==0 && id==2){
@@ -611,8 +598,8 @@ float testeAdicionarViagemComDadosValidos(){
 	float pontuacao=0.0;
 	int id;
 	char nome[81];
-	char cidade[61], pais[31];
-	int dia,mes,ano,periodo,id_v;
+	char cidade[61], pais[31], cidade2[61], pais2[31];
+	int dia,mes,ano,periodo,id_v, dia2,mes2,ano2,periodo2,id_v2;
 	Usuario* Matheus = novo_u(1,"Matheus");
 
 	Viagem* viagem1 = nova_v(23,01,2017,"Fortaleza","Brasil",10);
@@ -621,6 +608,7 @@ float testeAdicionarViagemComDadosValidos(){
 	Viagem* viagem4 = nova_v(23,10,2017,"Fortaleza","Brasil",10);
 	Viagem* viagem5 = nova_v(23,04,2017,"Fortaleza","Brasil",10);
 	Viagem* viagem6 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+	Viagem** viagens = {viagem1,viagem2,viagem3,viagem4,viagem5,viagem6};
 
 	adiciona_viagem_u(Matheus,viagem4);
 	adiciona_viagem_u(Matheus,viagem6);
@@ -630,22 +618,69 @@ float testeAdicionarViagemComDadosValidos(){
 	adiciona_viagem_u(Matheus,viagem3);
 	Viagem** vetor = listar_viagens_u(Matheus);
 
-	acessa_v(vetor[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-	acessa_v(vetor[1],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-	acessa_v(vetor[2],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-	acessa_v(vetor[3],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-	acessa_v(vetor[4],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-	acessa_v(vetor[5],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-	printf("%d %d %d %s %s %d \n",dia,mes,ano,cidade,pais,periodo);
-
+	int j = 0;
+	int erro = 0;
+	while(j<6 && erro == 0){
+		if(vetor[j] != viagens[j]){
+			erro == 1;
+		}
+		j++;
+	}
+	if(Matheus != NULL){
+		if(erro == 0){
+			printf("[Passou 0.1] - Teste da função adiciona_viagem_u() com dados válidos!\n");
+			pontuacao = 0.01;
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função adiciona_viagem_u() com dados válidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00] - Teste da função adiciona_viagem_u() com dados válidos!\n");
+	}
+	libera_u(Matheus);
 	return pontuacao;
 }
 
+
+float testeAdicionarViagemComDadosInvalidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31], cidade2[61], pais2[31];
+	int dia,mes,ano,periodo,id_v, dia2,mes2,ano2,periodo2,id_v2;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(23,01,-2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,-1,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(-31,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem4 = nova_v(31,13,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem5 = nova_v(23,13,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem6 = nova_v(23,-12,2017,"Fortaleza","Brasil",10);
+
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem6);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem3);
+	Viagem** vetor = listar_viagens_u(Matheus);
+
+	if(Matheus != NULL){
+		if(vetor == NULL){
+			printf("[Passou 0.1] - Teste da função adiciona_viagem_u() com dados inválidos!\n");
+			pontuacao = 0.01;
+		}
+		else{
+			printf("[Falhou 0.00*] - Teste da função adiciona_viagem_u() com dados inválidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00**] - Teste da função adiciona_viagem_u() com dados inválidos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
 float testeAtribuiDireitaComDadosValidos(){
 	float pontuacao;
 	char cidade[61], pais[31];
@@ -657,6 +692,7 @@ float testeAtribuiDireitaComDadosValidos(){
 	acessa_v(acessa_direita_v(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
 	if(dia == 23 && mes == 12 && ano == 2018 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
 		printf("[Passou 0.1] - Teste da função atribui_direita_v() com dados válidos!\n");
+		pontuacao = 0.01;
 	}
 	else{
 			printf("[Falhou 0.00] - Teste da função atribui_direita_v() com dados válidos!\n");
@@ -696,6 +732,7 @@ float testeMinimoComDadosValidos(){
 	else{
 		printf("[Falhou 0.00] - Teste da função Minimo() com dados válidos!\n");
 	}
+	return pontuacao;
 }
 
 float testeSucessorComDadosValidos(){
@@ -710,14 +747,62 @@ float testeSucessorComDadosValidos(){
 	acessa_v(Sucessor(viagem1),&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
 	if(dia == 23 && mes == 12 && ano == 2019 && strcmp("Fortaleza",cidade) == 0 && strcmp(pais,"Brasil") == 0 && periodo == 10){
 		printf("[Passou 0.1] - Teste da função Sucessor() com dados válidos!\n");
+		pontuacao = 0.01;
 	}
 	else{
 		printf("[Falhou 0.00] - Teste da função Sucessor() com dados válidos!\n");
 	}
 }
 
+float testeRemoverViagemComDadosValidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31], cidade2[61], pais2[31];
+	int dia,mes,ano,periodo,id_v, dia2,mes2,ano2,periodo2,id_v2;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(21,01,2016,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(23,05,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(23,07,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem4 = nova_v(23,10,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem5 = nova_v(23,04,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem6 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
+
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem2);
+
+	Viagem** vetor = listar_viagens_u(Matheus);
+	for(int j = 0; j<2; j++){
+		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
+	}
+	printf("\n\n\n");
+	remover_viagem_u(Matheus,1);
+	for(int j = 0; j<2; j++){
+		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
+	}
+	// vetor = listar_viagens_u(Matheus);
+/*	if(Matheus != NULL && vetor != NULL){
+		acessa_v(vetor[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+		if(dia != 21 && mes != 01 && ano != 2016 ){
+			printf("[Passou 0.1] - Teste da função remover_viagem_u() com dados válidos!\n");
+		}
+		else{
+			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+		}
+	}
+	else{
+		printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+	}*/
+	
+
+	return pontuacao;
+
+}
 int main(){
-	/*printf("Funções de Viajem\n\n");
+/*	printf("Funções de Viajem\n\n");
 	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
 	testeNovoComDadosNulos();
@@ -727,6 +812,10 @@ int main(){
 	testeAtribuiComDadosInvalidos();
 	testeAtribuiComDadosNulos();
 	testeLiberaComDadosValidos();
+	testeMinimoComDadosValidos();
+	testeAtribuiDireitaComDadosValidos();
+	testeAtribuiEsquerdaComDadosValidos();
+	testeSucessorComDadosValidos();
 	printf("\n\nFunções do usuário\n\n");
 	testeNovoUsuarioComDadosValidos();
 	testeNovoUsuarioComDadosInvalidos();
@@ -740,11 +829,9 @@ int main(){
 	testeAtribuiUsuarioComDadosInvalidos();
 	testeAtribuiUsuarioComDadosNulos();
 	testeBuscaAmigoComDadosValidos();
-	testeBuscaAmigoComDadosInvalidos();*/
-/*	testeAtribuiDireitaComDadosValidos();
-	testeAtribuiEsquerdaComDadosValidos();
-	testeMinimoComDadosValidos();
-	testeSucessorComDadosValidos();*/
+	testeBuscaAmigoComDadosInvalidos();
 	testeAdicionarViagemComDadosValidos();
+	testeAdicionarViagemComDadosInvalidos();*/
+	testeRemoverViagemComDadosValidos();
 	return 0;
 }
