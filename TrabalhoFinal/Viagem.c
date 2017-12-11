@@ -147,6 +147,8 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 
 	if(acessa_pai_v(viagem1) == NULL){
 		*raiz = *viagem2;
+		atribui_pai_v(raiz,NULL);
+		
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
@@ -154,7 +156,7 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 	else{
 		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
 	}
-	if(viagem2!=NULL){
+	if(viagem2!=NULL && viagem2 != raiz){
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 }
@@ -177,6 +179,7 @@ void Remover(Viagem* raiz, Viagem* viagem){
 			atribui_esquerda_v(sucessor,acessa_esquerda_v(viagem));
 			atribui_pai_v(acessa_esquerda_v(sucessor),sucessor);
 		}
+		printf("%d\n",raiz->pai == NULL );
 	}
 	
 }
