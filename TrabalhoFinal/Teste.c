@@ -778,7 +778,7 @@ float testeRemoverViagemComDadosValidos(){
 		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
 	}
 	printf("\n\n\n");
-	remover_viagem_u(Matheus,1);
+	remover_viagem_u(Matheus,0);
 	for(int j = 0; j<2; j++){
 		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
 		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);

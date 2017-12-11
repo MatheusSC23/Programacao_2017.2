@@ -146,7 +146,7 @@ Viagem *Sucessor(Viagem* viagem){
 void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 
 	if(acessa_pai_v(viagem1) == NULL){
-		raiz = viagem2;
+		*raiz = *viagem2;
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
@@ -154,7 +154,7 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 	else{
 		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
 	}
-	if(viagem2!=NULL && viagem2 != raiz){
+	if(viagem2!=NULL){
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 }
