@@ -771,18 +771,18 @@ float testeRemoverViagemComDadosValidos(){
 
 	adiciona_viagem_u(Matheus,viagem1);
 	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem4);
 
 	Viagem** vetor = listar_viagens_u(Matheus);
-	for(int j = 0; j<2; j++){
+	for(int j = 0; j<4; j++){
 		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
 		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
 	}
 	printf("\n\n\n");
-	remover_viagem_u(Matheus,0);
-	for(int j = 0; j<5; j++){
-		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
-	}
+	remover_viagem_u(Matheus,2);
+	remover_viagem_u(Matheus,3);
+	remover_viagem_u(Matheus,1);
 	// vetor = listar_viagens_u(Matheus);
 /*	if(Matheus != NULL && vetor != NULL){
 		acessa_v(vetor[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);

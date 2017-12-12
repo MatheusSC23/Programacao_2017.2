@@ -337,7 +337,6 @@ void remover_viagem_u(Usuario *usuario, int id){
 				Remover(usuario->viagens,v1);
 				usuario->numeroViagens--;
 			}
-		
 		}
 	}
 }
