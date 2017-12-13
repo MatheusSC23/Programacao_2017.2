@@ -323,11 +323,20 @@ void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
 }
 void remover_viagem_u(Usuario *usuario, int id){
 	if(usuario!=NULL && id>=0){
+		printf("O id a ser removido %d\n",id);
 		int dia,mes,ano,periodo,viagem_id;
 		char cidade[61],pais[31];
 		Viagem* viagem = usuario->viagens;
+		printf("Antes de remover: \n");
+		Viagem* v1 = Minimo(viagem);
+		acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
+		while(v1 != NULL){
+			v1=Sucessor(v1);
+			printf("%d %d %d %s %s %d %d\n",dia,mes, ano, cidade, pais, periodo,viagem_id );
+			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
+		}
 		if(viagem != NULL){
-			Viagem* v1 = Minimo(viagem);
+			v1 = Minimo(viagem);
 			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
 			while(v1 != NULL && viagem_id!=id){
 				v1=Sucessor(v1);
@@ -336,6 +345,13 @@ void remover_viagem_u(Usuario *usuario, int id){
 			if(v1 != NULL){
 				Remover(usuario->viagens,v1);
 				usuario->numeroViagens--;
+			}
+			v1 = Minimo(viagem);
+			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
+			while(v1 != NULL){
+				v1=Sucessor(v1);
+				printf("%d %d %d %s %s %d %d\n",dia,mes, ano, cidade, pais, periodo,viagem_id );
+				acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
 			}
 		}
 	}

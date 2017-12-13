@@ -762,44 +762,39 @@ float testeRemoverViagemComDadosValidos(){
 	int dia,mes,ano,periodo,id_v, dia2,mes2,ano2,periodo2,id_v2;
 	Usuario* Matheus = novo_u(1,"Matheus");
 
-	Viagem* viagem1 = nova_v(21,01,2016,"Fortaleza","Brasil",10);
-	Viagem* viagem2 = nova_v(23,05,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem3 = nova_v(23,07,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem4 = nova_v(23,10,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem5 = nova_v(23,04,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem6 = nova_v(23,12,2017,"Fortaleza","Brasil",10);
-
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(3,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem4 = nova_v(4,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem5 = nova_v(5,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem6 = nova_v(6,01,2017,"Fortaleza","Brasil",10);
 	adiciona_viagem_u(Matheus,viagem1);
-	adiciona_viagem_u(Matheus,viagem2);
-	adiciona_viagem_u(Matheus,viagem3);
-	adiciona_viagem_u(Matheus,viagem4);
 
 	Viagem** vetor = listar_viagens_u(Matheus);
-	for(int j = 0; j<4; j++){
-		acessa_v(vetor[j],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-		printf("%d %d %d %s %s %d\n",dia,mes,ano,cidade,pais,periodo);
-	}
-	printf("\n\n\n");
-	remover_viagem_u(Matheus,2);
-	remover_viagem_u(Matheus,3);
-	remover_viagem_u(Matheus,1);
-	// vetor = listar_viagens_u(Matheus);
-/*	if(Matheus != NULL && vetor != NULL){
-		acessa_v(vetor[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
-		if(dia != 21 && mes != 01 && ano != 2016 ){
+
+	remover_viagem_u(Matheus,0);
+	
+	//vetor = listar_viagens_u(Matheus);
+/*	if(vetor != NULL){
+		remover_viagem_u(Matheus,0);
+		remover_viagem_u(Matheus,1);
+		remover_viagem_u(Matheus,2);
+		remover_viagem_u(Matheus,3);
+		remover_viagem_u(Matheus,4);
+		remover_viagem_u(Matheus,5);
+		vetor = listar_viagens_u(Matheus);
+		if(vetor == NULL){
 			printf("[Passou 0.1] - Teste da função remover_viagem_u() com dados válidos!\n");
+			pontuacao = 0.1;
 		}
 		else{
 			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
 		}
 	}
 	else{
-		printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
 	}*/
-	
-
 	return pontuacao;
-
 }
 int main(){
 /*	printf("Funções de Viajem\n\n");

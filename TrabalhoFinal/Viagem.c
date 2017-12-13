@@ -13,6 +13,7 @@ struct viagem{
 	int periodo;
 	Viagem *direita, *esquerda, *pai;
 };
+
 Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo){
 	if((dia<1 || dia>31) || (mes<1 || mes>12) || ano<1 || cidade==NULL || pais==NULL || periodo<1){
 		return NULL;
@@ -24,7 +25,7 @@ Viagem *nova_v(int dia, int mes, int ano, char *cidade, char *pais, int periodo)
 				return NULL;
 			}
 
-			id_viagem++;
+			id_viagem = id_viagem + 1;
 			v->id = id_viagem;
 			v->dia = dia;
 			v->mes = mes;
@@ -144,13 +145,12 @@ Viagem *Sucessor(Viagem* viagem){
 }
 
 void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
-	
-	if(viagem2!=NULL){
+
+	if(viagem2!=NULL){	
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 	if(acessa_pai_v(viagem1) == NULL){
 		*raiz = *viagem2;
-		
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
@@ -158,10 +158,9 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 	else{
 		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
 	}
-	
 }
 void Remover(Viagem* raiz, Viagem* viagem){
-	if(viagem!=NULL){
+	if(viagem!=NULL && raiz != NULL){
 		if(acessa_esquerda_v(viagem)==NULL){
 			Transplantar(raiz,viagem,acessa_direita_v(viagem));
 		}
