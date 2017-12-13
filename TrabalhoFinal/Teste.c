@@ -769,6 +769,11 @@ float testeRemoverViagemComDadosValidos(){
 	Viagem* viagem5 = nova_v(5,01,2017,"Fortaleza","Brasil",10);
 	Viagem* viagem6 = nova_v(6,01,2017,"Fortaleza","Brasil",10);
 	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
 
 	Viagem** vetor = listar_viagens_u(Matheus);
 
