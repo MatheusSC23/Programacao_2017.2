@@ -14,8 +14,8 @@ void remove_amigo_u(Usuario *usuario, int id);
 Usuario *busca_amigo_u(Usuario *usuario, int id); 
 Usuario *lista_amigos_u(Usuario *usuario); 
 void adiciona_viagem_u(Usuario *usuario, Viagem *viagem); 
-void remover_viagem_u(Usuario *usuario, int id); /*Perguntar pelo id*/
-Viagem *listar_viagens_u(Usuario *usuario); /*Retorna somente uma viagem?*/
+void remover_viagem_u(Usuario *usuario, int id); 
+Viagem *listar_viagens_u(Usuario *usuario); 
 Viagem *buscar_viagem_por_data_u(Usuario *usuario, int dia, int mes, int ano); 
 Viagem *buscar_viagem_por_destino_u(Usuario *usuario, char *cidade, char *pais); 
 Viagem *filtrar_viagens_amigos_por_data_u(Usuario *usuario, int dia, int mes, int ano); 

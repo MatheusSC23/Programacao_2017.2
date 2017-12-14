@@ -758,8 +758,8 @@ float testeRemoverViagemComDadosValidos(){
 	float pontuacao=0.0;
 	int id;
 	char nome[81];
-	char cidade[61], pais[31], cidade2[61], pais2[31];
-	int dia,mes,ano,periodo,id_v, dia2,mes2,ano2,periodo2,id_v2;
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
 	Usuario* Matheus = novo_u(1,"Matheus");
 
 	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
@@ -780,29 +780,243 @@ float testeRemoverViagemComDadosValidos(){
 
 
 	if(vetor != NULL){
-		
-		remover_viagem_u(Matheus,0);
+		remover_viagem_u(Matheus,5);
 		remover_viagem_u(Matheus,1);
+		remover_viagem_u(Matheus,4);
 		remover_viagem_u(Matheus,2);
 		remover_viagem_u(Matheus,3);
-		remover_viagem_u(Matheus,4);
-		remover_viagem_u(Matheus,5);
+		remover_viagem_u(Matheus,0);
 		vetor = listar_viagens_u(Matheus);
 		if(vetor == NULL){
 			printf("[Passou 0.1] - Teste da função remover_viagem_u() com dados válidos!\n");
 			pontuacao = 0.1;
 		}
 		else{
-			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00*] - Teste da função remover_viagem_u() com dados válidos!\n");
 		}
 	}
 	else{
-			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00**] - Teste da função remover_viagem_u() com dados válidos!\n");
 	}
 	return pontuacao;
 }
+
+float testeBuscarViagemPorDataComDadosValidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,02,2017,"Sergipe","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Bahia","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"São Paulo","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Rio de Janeiro","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Curitiba","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Belém","Brasil",10);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
+
+	Viagem* retorno = buscar_viagem_por_data_u(Matheus,1,1,2017);
+	if(retorno != NULL){
+		acessa_v(retorno,&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+		if(dia == 1 && mes == 1 && ano == 2017 && strcmp(cidade,"Fortaleza") == 0 && strcmp(pais,"Brasil") == 0){
+			printf("[Passou 0.1] - Teste da função buscar_viagem_por_data_u() com dados válidos!\n");
+			pontuacao = 0.1;
+		}
+		else{
+			printf("[Falhou 0.00*] - Teste da função buscar_viagem_por_data_u() com dados válidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00*] - Teste da função buscar_viagem_por_data_u() com dados válidos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
+
+float testeBuscarViagemPorDataComDadosInvalidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,02,2017,"Sergipe","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Bahia","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"São Paulo","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Rio de Janeiro","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Curitiba","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Belém","Brasil",10);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
+
+	Viagem* retorno1 = buscar_viagem_por_data_u(Matheus,-1,1,2017);
+	Viagem* retorno2 = buscar_viagem_por_data_u(Matheus,-1,1,2017);
+	Viagem* retorno3 = buscar_viagem_por_data_u(Matheus,-1,-1,-2017);
+	Viagem* retorno4 = buscar_viagem_por_data_u(Matheus,32,1,2017);
+	Viagem* retorno5 = buscar_viagem_por_data_u(Matheus,1,13,2017);
+	Viagem* retorno6 = buscar_viagem_por_data_u(Matheus,7,7,2017);
+
+	if(Matheus != NULL){
+		if(retorno1 == NULL && retorno2 == NULL && retorno3 == NULL && retorno4 == NULL && retorno5 == NULL && retorno6 == NULL){
+			printf("[Passou 0.1] - Teste da função buscar_viagem_por_data_u() com dados inválidos!\n");
+			pontuacao = 0.1;
+		}
+		else{
+			printf("[Falhou 0.00*] - Teste da função buscar_viagem_por_data_u() com dados inválidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00**] - Teste da função buscar_viagem_por_data_u() com dados inválidos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
+
+float testeBuscarViagemPorDataComDadosNulos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,02,2017,"Sergipe","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Bahia","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"São Paulo","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Rio de Janeiro","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Curitiba","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Belém","Brasil",10);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
+
+	Viagem* retorno1 = buscar_viagem_por_data_u(Matheus,NULL,1,2017);
+	Viagem* retorno2 = buscar_viagem_por_data_u(Matheus,1,NULL,2017);
+	Viagem* retorno3 = buscar_viagem_por_data_u(Matheus,1,1,NULL);
+	if(Matheus != NULL){
+		if(retorno1 == NULL && retorno2 == NULL && retorno3 == NULL){
+			printf("[Passou 0.1] - Teste da função buscar_viagem_por_data_u() com dados nulos!\n");
+			pontuacao = 0.1;
+		}
+		else{
+			printf("[Falhou 0.00*] - Teste da função buscar_viagem_por_data_u() com dados nulos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00**] - Teste da função buscar_viagem_por_data_u() com dados nulos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
+
+float testeBuscarViagemPorDestinoComDadosValidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61], pais[31];
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,02,2017,"Sergipe","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Bahia","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"São Paulo","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Rio de Janeiro","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Curitiba","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Fortaleza","Brasil",10);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
+	adiciona_viagem_u(Matheus,viagem7);
+	Viagem** retorno = buscar_viagem_por_destino_u(Matheus,"Fortaleza","Brasil");
+	if(retorno != NULL){
+		acessa_v(retorno[0],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+		if(dia == 1 && mes == 1 && ano == 2017 && strcmp(cidade,"Fortaleza") == 0 && strcmp(pais,"Brasil") == 0){
+			acessa_v(retorno[1],&dia,&mes,&ano,cidade,pais,&periodo,&id_v);
+			if(dia == 7 && mes == 7 && ano == 2017 && strcmp(cidade,"Fortaleza") == 0 && strcmp(pais,"Brasil") == 0){
+				printf("[Passou 0.1] - Teste da função buscar_viagem_por_destino_u() com dados válidos!\n");
+				pontuacao = 0.1;
+			}
+			else{
+				printf("[Falhou 0.00*] - Teste da função buscar_viagem_por_destino_u() com dados válidos!\n");
+			}
+		}
+		else{
+			printf("[Falhou 0.00**] - Teste da função buscar_viagem_por_destino_u() com dados válidos!\n");
+		}
+	}
+	else{
+			printf("[Falhou 0.00***] - Teste da função buscar_viagem_por_destino_u() com dados válidos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
+
+float testeBuscarViagemPorDestinoComDadosInvalidos(){
+	float pontuacao=0.0;
+	int id;
+	char nome[81];
+	char cidade[61] = "C", pais[31] = "P";
+	int dia,mes,ano,periodo,id_v;
+	Usuario* Matheus = novo_u(1,"Matheus");
+
+	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem2 = nova_v(2,02,2017,"Sergipe","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Bahia","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"São Paulo","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Rio de Janeiro","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Curitiba","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Fortaleza","Brasil",10);
+	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	adiciona_viagem_u(Matheus,viagem3);
+	adiciona_viagem_u(Matheus,viagem5);
+	adiciona_viagem_u(Matheus,viagem6);
+	adiciona_viagem_u(Matheus,viagem7); 
+
+	for (int i = 0; i < 61; i++) {
+		strcat(cidade, "C");
+	}
+
+	for (int i = 0; i < 31; i++) {
+		strcat(pais, "P");
+	}
+	Viagem** retorno1 = buscar_viagem_por_destino_u(Matheus,cidade,"Brasil");
+	Viagem** retorno2 = buscar_viagem_por_destino_u(Matheus,"Fortaleza",pais);
+	if(retorno1 == NULL && retorno2 == NULL){
+		printf("[Passou 0.1] - Teste da função buscar_viagem_por_destino_u() com dados inválidos!\n");
+		pontuacao = 0.1;
+	}
+	else{
+			printf("[Falhou 0.00] - Teste da função buscar_viagem_por_destino_u() com dados inválidos!\n");
+	}
+	libera_u(Matheus);
+	return pontuacao;
+}
 int main(){
-/*	printf("Funções de Viajem\n\n");
+	/*printf("Funções de Viajem\n\n");
 	testeNovoComDadosValidos();
 	testeNovoComDadosInvalidos();
 	testeNovoComDadosNulos();
@@ -831,7 +1045,13 @@ int main(){
 	testeBuscaAmigoComDadosValidos();
 	testeBuscaAmigoComDadosInvalidos();
 	testeAdicionarViagemComDadosValidos();
-	testeAdicionarViagemComDadosInvalidos();*/
-	testeRemoverViagemComDadosValidos();
+	testeAdicionarViagemComDadosInvalidos();
+	//Como eu declarei outras viagens os ids do teste abaixou irão dar conflito
+	testeRemoverViagemComDadosValidos();*/
+	testeBuscarViagemPorDataComDadosValidos();
+	testeBuscarViagemPorDataComDadosInvalidos();
+	testeBuscarViagemPorDataComDadosNulos();
+	testeBuscarViagemPorDestinoComDadosValidos();
+	testeBuscarViagemPorDestinoComDadosInvalidos();
 	return 0;
 }
