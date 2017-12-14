@@ -763,21 +763,29 @@ float testeRemoverViagemComDadosValidos(){
 	Usuario* Matheus = novo_u(1,"Matheus");
 
 	Viagem* viagem1 = nova_v(1,01,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem2 = nova_v(2,01,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem3 = nova_v(3,01,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem4 = nova_v(4,01,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem5 = nova_v(5,01,2017,"Fortaleza","Brasil",10);
-	Viagem* viagem6 = nova_v(6,01,2017,"Fortaleza","Brasil",10);
-	adiciona_viagem_u(Matheus,viagem1);
-	adiciona_viagem_u(Matheus,viagem2);
-	adiciona_viagem_u(Matheus,viagem3);
+	Viagem* viagem2 = nova_v(2,02,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem3 = nova_v(3,03,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem4 = nova_v(4,04,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem5 = nova_v(5,05,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem6 = nova_v(6,06,2017,"Fortaleza","Brasil",10);
 	adiciona_viagem_u(Matheus,viagem4);
+	adiciona_viagem_u(Matheus,viagem2);
+	adiciona_viagem_u(Matheus,viagem1);
+	
+	adiciona_viagem_u(Matheus,viagem3);
+	
 	adiciona_viagem_u(Matheus,viagem5);
 	adiciona_viagem_u(Matheus,viagem6);
 
 	Viagem** vetor = listar_viagens_u(Matheus);
 
 	remover_viagem_u(Matheus,0);
+	remover_viagem_u(Matheus,5);
+	remover_viagem_u(Matheus,6);
+	remover_viagem_u(Matheus,3);
+	remover_viagem_u(Matheus,4);
+	remover_viagem_u(Matheus,1);
+	remover_viagem_u(Matheus,2);
 	
 	//vetor = listar_viagens_u(Matheus);
 /*	if(vetor != NULL){

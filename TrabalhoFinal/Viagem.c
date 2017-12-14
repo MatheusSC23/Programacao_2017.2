@@ -150,7 +150,16 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 	if(acessa_pai_v(viagem1) == NULL){
-		*raiz = *viagem2;
+		if(viagem2 == NULL){
+			Viagem* temp;
+			temp = viagem2;
+			raiz = temp;
+		}
+		else{
+			Viagem* temp;
+			*temp = *viagem2;
+			raiz = temp;
+		}
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
