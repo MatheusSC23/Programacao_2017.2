@@ -144,22 +144,19 @@ Viagem *Sucessor(Viagem* viagem){
 	return retorno;
 }
 
-void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
-
+void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){	
 	if(viagem2!=NULL){	
 		atribui_pai_v(viagem2,acessa_pai_v(viagem1));
 	}
 	if(acessa_pai_v(viagem1) == NULL){
-		if(viagem2 == NULL){
-			Viagem* temp;
-			temp = viagem2;
-			raiz = temp;
+		if(viagem2 !=NULL){
+			*raiz = *viagem2;
 		}
 		else{
 			Viagem* temp;
-			*temp = *viagem2;
+			temp = viagem2;
 			raiz = temp;
-		}
+		}		
 	}
 	else if(viagem1 == acessa_esquerda_v(acessa_pai_v(viagem1))){
 		atribui_esquerda_v(acessa_pai_v(viagem1),viagem2);
@@ -167,6 +164,7 @@ void Transplantar(Viagem* raiz, Viagem* viagem1, Viagem* viagem2){
 	else{
 		atribui_direita_v(acessa_pai_v(viagem1),viagem2);
 	}
+	
 }
 void Remover(Viagem* raiz, Viagem* viagem){
 	if(viagem!=NULL && raiz != NULL){

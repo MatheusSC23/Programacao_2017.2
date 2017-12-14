@@ -771,24 +771,15 @@ float testeRemoverViagemComDadosValidos(){
 	adiciona_viagem_u(Matheus,viagem4);
 	adiciona_viagem_u(Matheus,viagem2);
 	adiciona_viagem_u(Matheus,viagem1);
-	
 	adiciona_viagem_u(Matheus,viagem3);
-	
 	adiciona_viagem_u(Matheus,viagem5);
 	adiciona_viagem_u(Matheus,viagem6);
 
 	Viagem** vetor = listar_viagens_u(Matheus);
 
-	remover_viagem_u(Matheus,0);
-	remover_viagem_u(Matheus,5);
-	remover_viagem_u(Matheus,6);
-	remover_viagem_u(Matheus,3);
-	remover_viagem_u(Matheus,4);
-	remover_viagem_u(Matheus,1);
-	remover_viagem_u(Matheus,2);
-	
-	//vetor = listar_viagens_u(Matheus);
-/*	if(vetor != NULL){
+
+	if(vetor != NULL){
+		
 		remover_viagem_u(Matheus,0);
 		remover_viagem_u(Matheus,1);
 		remover_viagem_u(Matheus,2);
@@ -801,12 +792,12 @@ float testeRemoverViagemComDadosValidos(){
 			pontuacao = 0.1;
 		}
 		else{
-			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00*] - Teste da função remover_viagem_u() com dados válidos!\n");
 		}
 	}
 	else{
-			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
-	}*/
+			printf("[Falhou 0.00**] - Teste da função remover_viagem_u() com dados válidos!\n");
+	}
 	return pontuacao;
 }
 int main(){

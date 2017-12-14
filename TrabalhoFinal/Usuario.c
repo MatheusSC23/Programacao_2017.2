@@ -340,7 +340,7 @@ void remover_viagem_u(Usuario *usuario, int id){
 			printf("Lista de viagens pós remoção\n");
 			v1 = Minimo(viagem);
 			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
-			while(v1 != NULL && viagem_id!=id){
+			while(v1 != NULL){
 				v1=Sucessor(v1);
 				printf("%d %d %d\n",dia, mes, ano);
 				acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
