@@ -280,6 +280,10 @@ int conflitoData(int dia1, int mes1, int ano1,int periodo1, int dia2, int mes2, 
 }
 
 void adiciona_viagem_u(Usuario *usuario, Viagem *viagem){
+	if(usuario->numeroViagens == 0){
+		Viagem* novaViagem = NULL;
+		usuario->viagens = novaViagem;
+	}
 	int dia1,dia2,mes1,mes2,ano1,ano2,periodo1,periodo2,id;
 	int conflito=0;
 	char cidade[61],pais[31];
@@ -337,19 +341,11 @@ void remover_viagem_u(Usuario *usuario, int id){
 				Remover(usuario->viagens,v1);
 				usuario->numeroViagens--;
 			}
-			printf("Lista de viagens pós remoção\n");
-			v1 = Minimo(viagem);
-			acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);
-			while(v1 != NULL){
-				v1=Sucessor(v1);
-				printf("%d %d %d\n",dia, mes, ano);
-				acessa_v(v1,&dia,&mes,&ano,cidade,pais,&periodo,&viagem_id);			
-			}
 		}
 	}
 }
 Viagem *listar_viagens_u(Usuario *usuario){
-	if(usuario!=NULL && usuario->viagens!=NULL){
+	if(usuario!=NULL && usuario->viagens!=NULL && usuario->numeroViagens>0){
 		Viagem** copiaViagem = (Viagem**) malloc(usuario->numeroViagens*tamanho_v());
 		Viagem* runner = Minimo(usuario->viagens);
 		int i = 0;

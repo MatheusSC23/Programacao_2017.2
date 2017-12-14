@@ -768,6 +768,7 @@ float testeRemoverViagemComDadosValidos(){
 	Viagem* viagem4 = nova_v(4,04,2017,"Fortaleza","Brasil",10);
 	Viagem* viagem5 = nova_v(5,05,2017,"Fortaleza","Brasil",10);
 	Viagem* viagem6 = nova_v(6,06,2017,"Fortaleza","Brasil",10);
+	Viagem* viagem7 = nova_v(7,07,2017,"Fortaleza","Brasil",10);
 	adiciona_viagem_u(Matheus,viagem4);
 	adiciona_viagem_u(Matheus,viagem2);
 	adiciona_viagem_u(Matheus,viagem1);
@@ -792,11 +793,11 @@ float testeRemoverViagemComDadosValidos(){
 			pontuacao = 0.1;
 		}
 		else{
-			printf("[Falhou 0.00*] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
 		}
 	}
 	else{
-			printf("[Falhou 0.00**] - Teste da função remover_viagem_u() com dados válidos!\n");
+			printf("[Falhou 0.00] - Teste da função remover_viagem_u() com dados válidos!\n");
 	}
 	return pontuacao;
 }
